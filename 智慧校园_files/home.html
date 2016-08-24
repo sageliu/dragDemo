@@ -189,6 +189,9 @@
     //    console.log(pageListUl);
     var num = 9;
     pageListUl.delegate('img', 'click', function (e) {
+//        if($("#changeDisImgParent").length>0){alert(123)};
+        //当切换完页面的布局之后，单击页面任意区块，在进行页面的布局切换的时候，会报错Unexpected token u;----------这里暂时没有处理
+        box.off('mouseup', imgMouseUp).off('mouseup', displayMouseUp);
         num = e.target.getAttribute('data-num');
         pageDisplay(num);
 //        console.log($(".page_display li"));
@@ -295,8 +298,9 @@
      imgList.delegate('img', 'mousedown', imgMouseDown);
      }*/
     function imgMouseDown(e) {
+        box.off('mouseup', displayMouseUp).off('mouseup', imgMouseUp);
         box.delegate('img', 'mousemove', imgMouseMove);
-        box.off('mouseup', imgMouseUp).delegate('img', 'mouseup', imgMouseUp);
+        box.delegate('img', 'mouseup', imgMouseUp);
         $(".dropdown.item.open").removeClass('open');
         var oldPageX = e.pageX - 50;
         var oldPageY = e.pageY - 50;
@@ -460,9 +464,8 @@
              console.info(positionObj);*/
 //            鼠标在哪个区块里面，那个区块就加边框，加ID  changeDisImg，便于替换
 // 不能和自己比
-
-            if (x > positionObj.xL && x < positionObj.xR) {
-                if (y > positionObj.yT && y < positionObj.yB) {
+            if (y > positionObj.yT && y < positionObj.yB) {
+                if (x > positionObj.xL && x < positionObj.xR) {
 //                    console.log($(this).children());
 //                    给被撞上的li加上id和边框
                     $(this).css({
@@ -470,6 +473,8 @@
                         top: ($(this).css('top') - 1),
                         left: ($(this).css('left') - 1)
                     }).attr('id', 'changeDisImgParent');
+                }else{
+//                    这里是新增的，处理替换并合并区块内容的代码，以及拆分区块的代码
                 }
             }
         });
