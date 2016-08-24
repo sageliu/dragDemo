@@ -1,0 +1,467 @@
+/* line 2, ../../app/assets/stylesheets/home_page.scss */
+html, body {
+  height: 100%;
+}
+
+/* line 11, ../../app/assets/stylesheets/home_page.scss */
+.top_menu {
+  height: 38px;
+  line-height: 38px;
+  background-color: rgba(0, 0, 0, 0.6);
+  margin-top: 1px;
+}
+/* line 16, ../../app/assets/stylesheets/home_page.scss */
+.top_menu li {
+  display: inline-block;
+  width: 100px;
+  height: 38px;
+  overflow: hidden;
+  text-align: center;
+  float: left;
+}
+/* line 24, ../../app/assets/stylesheets/home_page.scss */
+.top_menu a {
+  color: #fff;
+  display: block;
+}
+/* line 28, ../../app/assets/stylesheets/home_page.scss */
+.top_menu li:hover, .top_menu li.active {
+  background: url(/assets/home_page/menubg.png) no-repeat center center;
+}
+/* line 31, ../../app/assets/stylesheets/home_page.scss */
+.top_menu li:hover a, .top_menu li.active a {
+  color: #fb9701;
+  text-decoration: none;
+}
+
+/* line 39, ../../app/assets/stylesheets/home_page.scss */
+.home_conten {
+  width: 100%;
+  min-height: 100%;
+  height: auto;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* line 47, ../../app/assets/stylesheets/home_page.scss */
+.app-wraper {
+  padding-bottom: 65px;
+}
+
+/* line 50, ../../app/assets/stylesheets/home_page.scss */
+.foot_wrap {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+/* line 55, ../../app/assets/stylesheets/home_page.scss */
+.home_page_w {
+  width: 1019px;
+  margin: 0 auto;
+}
+
+/* line 59, ../../app/assets/stylesheets/home_page.scss */
+.h_icon {
+  display: initial;
+}
+
+/* line 62, ../../app/assets/stylesheets/home_page.scss */
+.table_style {
+  border: 1px solid #16374a;
+}
+
+/* line 65, ../../app/assets/stylesheets/home_page.scss */
+.head_wrap {
+  height: 50px;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* line 71, ../../app/assets/stylesheets/home_page.scss */
+.home_page_content {
+  background: rgba(0, 0, 0, 0.4);
+  width: 1019px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 18px;
+}
+
+/* line 80, ../../app/assets/stylesheets/home_page.scss */
+.home_page_bg {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* line 83, ../../app/assets/stylesheets/home_page.scss */
+.home_head {
+  margin: 0 auto;
+}
+/* line 85, ../../app/assets/stylesheets/home_page.scss */
+.home_head .logo {
+  margin: 5px 0;
+}
+/* line 87, ../../app/assets/stylesheets/home_page.scss */
+.home_head .logo img {
+  height: 40px;
+}
+/* line 93, ../../app/assets/stylesheets/home_page.scss */
+.home_head .home_menu {
+  margin: 13px 0;
+}
+/* line 96, ../../app/assets/stylesheets/home_page.scss */
+.home_head .user_img {
+  margin-right: 10px;
+}
+/* line 98, ../../app/assets/stylesheets/home_page.scss */
+.home_head .user_img img {
+  border-radius: 50%;
+}
+/* line 101, ../../app/assets/stylesheets/home_page.scss */
+.home_head .user_img .user_id {
+  display: inline-block;
+  line-height: 24px;
+  margin-left: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+/* line 108, ../../app/assets/stylesheets/home_page.scss */
+.home_head .user_img a:hover {
+  color: #fece00;
+}
+/* line 113, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside li {
+  margin: 0 5px;
+  display: inline-block;
+  float: left;
+  height: 24px;
+}
+/* line 118, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside li a {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url(/assets/home_page/home_page_icon.png);
+}
+/* line 124, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside li .bg_img_home {
+  background-position: left -96px;
+}
+/* line 127, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside li .bg_img_home:hover {
+  background-position: left -120px;
+}
+/* line 130, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside li .bg_img_set {
+  background-position: left top;
+}
+/* line 133, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside li .bg_img_set:hover {
+  background-position: left -24px;
+}
+/* line 136, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside li .set_active {
+  background-position: left -24px;
+}
+/* line 139, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside li .close_btn {
+  background-position: left -48px;
+}
+/* line 142, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside li .close_btn:hover {
+  background-position: left -72px;
+}
+/* line 146, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside .img_set_icon {
+  position: relative;
+}
+/* line 148, ../../app/assets/stylesheets/home_page.scss */
+.home_head .nav_inside .img_set_icon i {
+  position: absolute;
+  background-image: url(/assets/home_page/3jiao.png);
+  padding: 7px;
+  top: -15px;
+  left: 50%;
+  margin-left: -7px;
+  display: none;
+}
+
+/* line 160, ../../app/assets/stylesheets/home_page.scss */
+.foot_wrap {
+  height: 65px;
+  background-color: rgba(0, 0, 0, 0.4);
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+  padding: 15px 0px;
+}
+/* line 168, ../../app/assets/stylesheets/home_page.scss */
+.foot_wrap p {
+  margin: 3px 0;
+}
+
+/* line 173, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img {
+  background-color: #dfe0e2;
+  height: 0px;
+  overflow: hidden;
+}
+/* line 177, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_top {
+  background-color: #f8f8f8;
+  height: 29px;
+  line-height: 29px;
+  font-size: 14px;
+}
+/* line 182, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_top .new_bg_tit {
+  background-color: #dfe0e2;
+  padding: 0 15px;
+}
+/* line 185, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_top .new_bg_tit i {
+  padding: 0 10px;
+  background: url(/assets/home_page/naq11.png) center center no-repeat;
+}
+/* line 191, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_top .new_bg_btn a {
+  padding: 0 15px;
+  display: inline-block;
+  color: #333;
+}
+/* line 196, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_top .new_bg_btn .bg_img_submit {
+  background-color: #3fbcfe;
+  color: #fff;
+}
+/* line 201, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_top .new_bg_btn .bg_img_upload i {
+  padding: 0 10px;
+  background: url(/assets/home_page/shezhi.png) center center no-repeat;
+}
+/* line 211, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_con ul {
+  padding: 10px;
+}
+/* line 214, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_con li {
+  display: inline-block;
+  margin: 10px;
+  position: relative;
+}
+/* line 219, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_con li img {
+  border: 1px solid #fff;
+}
+/* line 222, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_con li p {
+  margin: 0px;
+  text-align: center;
+  line-height: 24px;
+}
+/* line 228, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_con li i {
+  display: none;
+}
+/* line 229, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_con li .bg_active {
+  background: url(/assets/home_page/queren.png);
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+/* line 239, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_con li.active i {
+  display: block;
+}
+
+/* line 244, ../../app/assets/stylesheets/home_page.scss */
+.bg_upload_modal .modal-dialog {
+  width: 365px;
+}
+/* line 246, ../../app/assets/stylesheets/home_page.scss */
+.bg_upload_modal .modal-dialog .modal-body {
+  text-align: center;
+}
+/* line 248, ../../app/assets/stylesheets/home_page.scss */
+.bg_upload_modal .modal-dialog .modal-body .img_upload_text {
+  margin-bottom: 20px;
+}
+
+/* line 257, ../../app/assets/stylesheets/home_page.scss */
+.wheel-button {
+  position: fixed;
+  bottom: 100px;
+  right: 0px;
+}
+
+/* line 260, ../../app/assets/stylesheets/home_page.scss */
+.wheel {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 240px;
+  /* this will determine the diameter of the circle  */
+  height: 240px;
+  /* this will determine the diameter of the circle  */
+  visibility: hidden;
+  position: relative;
+  display: none;
+  -webkit-user-select: none;
+}
+
+/* line 271, ../../app/assets/stylesheets/home_page.scss */
+.wheel li {
+  float: left;
+}
+
+/* line 274, ../../app/assets/stylesheets/home_page.scss */
+.wheel li a {
+  display: block;
+}
+
+/* line 277, ../../app/assets/stylesheets/home_page.scss */
+.wheel-button, .wheel-button:visited {
+  padding: 10px 10px;
+  text-align: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: url(/assets/home_page/menu_bg.png) no-repeat;
+}
+
+/* line 285, ../../app/assets/stylesheets/home_page.scss */
+.wheel-button:hover {
+  box-shadow: 0 0 5px 2px #1a95eb;
+}
+
+/* line 288, ../../app/assets/stylesheets/home_page.scss */
+.wheel li a, .wheel li a:visited {
+  background: rgba(43, 167, 253, 0.65);
+  border-radius: 50px;
+  font-weight: bold;
+  padding: 7px;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #1a95eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  color: white;
+  -moz-transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+/* line 306, ../../app/assets/stylesheets/home_page.scss */
+.wheel li a:hover {
+  background: rgba(43, 167, 253, 0.8);
+}
+
+/* line 309, ../../app/assets/stylesheets/home_page.scss */
+.wheel-button {
+  -webkit-user-select: none;
+}
+
+/* line 312, ../../app/assets/stylesheets/home_page.scss */
+.new_bg_img .new_bg_con li img {
+  width: 142px;
+  height: 82px;
+}
+
+/* line 315, ../../app/assets/stylesheets/home_page.scss */
+.center-all {
+  background: url(/assets/home_page/pingtaixuanhzong.png) no-repeat;
+  width: 470px;
+  height: 96px;
+  margin: auto;
+  padding: 0px 30px;
+}
+
+/* line 322, ../../app/assets/stylesheets/home_page.scss */
+.app-all i {
+  width: 92px;
+  height: 78px;
+  left: 0;
+  display: inline-block;
+  right: 0;
+  margin: auto;
+}
+
+/* line 330, ../../app/assets/stylesheets/home_page.scss */
+.app-all p {
+  line-height: 122px;
+  text-decoration: none;
+}
+
+/* line 334, ../../app/assets/stylesheets/home_page.scss */
+.develop-center i {
+  position: absolute;
+  top: -40px;
+  background: url(/assets/home_page/kaifazhezhongxin.png) no-repeat;
+}
+
+/* line 340, ../../app/assets/stylesheets/home_page.scss */
+.develop-center p {
+  color: #333333;
+}
+
+/* line 343, ../../app/assets/stylesheets/home_page.scss */
+.try-center i {
+  position: absolute;
+  top: -40px;
+  background: url(/assets/home_page/landishiyong.png) no-repeat;
+}
+
+/* line 349, ../../app/assets/stylesheets/home_page.scss */
+.try-center p {
+  color: #fff;
+}
+
+/* line 352, ../../app/assets/stylesheets/home_page.scss */
+.app-all {
+  width: 205px;
+  position: relative;
+  height: 96px;
+  float: left;
+  text-align: center;
+}
+
+/* line 360, ../../app/assets/stylesheets/home_page.scss */
+.develop-center-active i {
+  background: url(/assets/home_page/kaifazhezhongxinlandi.png) no-repeat;
+  position: absolute;
+  top: -40px;
+}
+/* line 365, ../../app/assets/stylesheets/home_page.scss */
+.develop-center-active p {
+  color: #fff;
+}
+
+/* line 370, ../../app/assets/stylesheets/home_page.scss */
+.try-center-active i {
+  position: absolute;
+  top: -40px;
+  background: url(/assets/home_page/baidishiyongzhongxin.png) no-repeat;
+}
+/* line 375, ../../app/assets/stylesheets/home_page.scss */
+.try-center-active p {
+  color: #333333;
+}
+
+/* line 379, ../../app/assets/stylesheets/home_page.scss */
+.center-all-active {
+  background: url(/assets/home_page/pingtaixuanhzongzuo.png) no-repeat;
+  width: 470px;
+  height: 96px;
+  margin: auto;
+  padding: 0px 30px;
+}
+
+/* line 386, ../../app/assets/stylesheets/home_page.scss */
+.app-list-wrap-size {
+  background-size: 1020px 700px;
+}

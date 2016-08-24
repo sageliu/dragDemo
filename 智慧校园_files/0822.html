@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://whcbwgh.aggso.com:8000/reputation/home -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧校园</title>
+    <link href="application.css" media="all" rel="stylesheet" type="text/css">
+    <link href="base.css" media="all" rel="stylesheet" type="text/css">
+    <link href="daterangepicker.css" media="all" rel="stylesheet" type="text/css">
+    <link href="_icons.css" media="all" rel="stylesheet" type="text/css">
+    <link href="jquery.multiselect2side.css" media="all" rel="stylesheet" type="text/css">
+    <link href="bootstrap-datetimepicker.css" media="all" rel="stylesheet" type="text/css">
+    <link href="select2-bootstrap.css" media="all" rel="stylesheet" type="text/css">
+    <link href="cal-heatmap.css" media="all" rel="stylesheet" type="text/css">
+    <!--<link href="/assets/home_page.css?body=1" media="all" rel="stylesheet" type="text/css" />-->
+    <link href="reputation.css" media="all" rel="stylesheet" type="text/css">
+    <!--############################################################-->
+    <style type="text/css">
+        .page_display {
+            padding: 10px;
+        }
+
+        ul, li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        ul {
+            padding: 5px;
+            width: 550px;
+            height: 550px;
+            margin: 0 auto;
+            position: relative;
+            background: #666;
+        }
+
+        li {
+            margin: 5px;
+            float: left;
+            overflow: hidden;
+            background: #39C;
+            cursor: move;
+            -webkit-user-select: none;
+        }
+
+        .page_display li img {
+            width: 170px;
+            height: 170px;
+            display: block;
+            border: none;
+        }
+
+        /*视图选项*/
+        .img_list {
+            overflow: auto;
+        }
+
+        .img_list img, .page_list img {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="event.js"></script>
+    <script src="drag_oop.js"></script>
+    <script src="tween.js"></script>
+
+    <!--############################################################-->
+    <script src="polyfills.js" type="text/javascript"></script>
+    <script src="ie8.polyfils.min.js" type="text/javascript"></script>
+    <script src="jquery.js" type="text/javascript"></script>
+    <script src="jquery_ujs.js" type="text/javascript"></script>
+    <script src="bootstrap-transition.js" type="text/javascript"></script>
+    <script src="bootstrap-alert.js" type="text/javascript"></script>
+    <script src="bootstrap-modal.js" type="text/javascript"></script>
+    <script src="bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="bootstrap-scrollspy.js" type="text/javascript"></script>
+    <script src="bootstrap-tab.js" type="text/javascript"></script>
+    <script src="bootstrap-tooltip.js" type="text/javascript"></script>
+    <script src="bootstrap-popover.js" type="text/javascript"></script>
+    <script src="bootstrap-button.js" type="text/javascript"></script>
+    <script src="bootstrap-collapse.js" type="text/javascript"></script>
+    <script src="bootstrap-carousel.js" type="text/javascript"></script>
+    <script src="bootstrap-typeahead.js" type="text/javascript"></script>
+    <script src="bootstrap-affix.js" type="text/javascript"></script>
+    <script src="bootstrap.js" type="text/javascript"></script>
+    <script src="echarts.js" type="text/javascript"></script>
+    <script src="bootstrap-colorpicker.js" type="text/javascript"></script>
+    <script src="select2.js" type="text/javascript"></script>
+    <script src="zh-CN.js" type="text/javascript"></script>
+    <script src="jquery.vector-map.js" type="text/javascript"></script>
+    <script src="china-zh.js" type="text/javascript"></script>
+    <script src="jscal2.js" type="text/javascript"></script>
+    <script src="cn.js" type="text/javascript"></script>
+    <script src="jqcloud.js" type="text/javascript"></script>
+    <script src="moment.js" type="text/javascript"></script>
+    <script src="zh-CN(1).js" type="text/javascript"></script>
+    <script src="daterangepicker2.js" type="text/javascript"></script>
+    <script src="draggable.js" type="text/javascript"></script>
+    <script src="bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <script src="bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script src="message-bus.js" type="text/javascript"></script>
+    <script src="unicorn.js" type="text/javascript"></script>
+    <script src="iframeResizer.contentWindow.js" type="text/javascript"></script>
+    <script src="common.js" type="text/javascript"></script>
+    <script src="application.js" type="text/javascript"></script>
+    <!-- <script src="/assets/echarts-all.js"></script> -->
+    <meta content="authenticity_token" name="csrf-param">
+    <meta content="cnHpOz8YwSd2r31uD/pa6MwHz/it6x2xXTdOT+UStsA=" name="csrf-token">
+</head>
+<body>
+<div class="home_page_w" style="-margin-top:10px; padding-top: 10px;">
+
+    <div class="home_page_menu home_page_bg">
+        <a class="hover_bz" href="home.html">首页</a>|
+        <a class="" href="http://whcbwgh.aggso.com:8000/reputation/sentiment">舆情信息</a>|
+        <a class="" href="http://whcbwgh.aggso.com:8000/reputation/reputation">声誉分析</a>|
+        <div class="dropdown item">
+            <a href="http://whcbwgh.aggso.com:8000/reputation/home#" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">图片列表<span class="caret"></span></a>
+            <ul class="dropdown-menu img_list" aria-labelledby="apis">
+                <li><img src="../img/1.png" alt="1" title="1"></li>
+                <li><img src="../img/2.png" alt="2" title="2"></li>
+                <li><img src="../img/3.png" alt="3" title="3"></li>
+                <li><img src="../img/4.png" alt="4" title="4"></li>
+                <li><img src="../img/5.png" alt="5" title="5"></li>
+                <li><img src="../img/6.png" alt="6" title="6"></li>
+                <li><img src="../img/7.png" alt="7" title="7"></li>
+                <li><img src="../img/8.png" alt="8" title="8"></li>
+                <li><img src="../img/9.png" alt="9" title="9"></li>
+                <li><img src="img/10.png" alt="10" title="10"></li>
+
+
+                <!-- <li><a href="/reputation/my_monitor">我的监测</a></li> -->
+            </ul>
+        </div>
+        |
+        <div class="dropdown item">
+            <a id="apis" href="http://whcbwgh.aggso.com:8000/reputation/home#" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">视图模板<span class="caret"></span></a>
+            <ul class="dropdown-menu page_list" aria-labelledby="apis">
+                <li><img src="../../pro/hubei-minyuan/minyuan_dashboard/app/assets/images/demo_drag/p1.png" alt="1" data-num="1" title="1"></li>
+                <li><img src="../../pro/hubei-minyuan/minyuan_dashboard/app/assets/images/demo_drag/p4.png" alt="4" data-num="4" title="4"></li>
+                <li><img src="../../pro/hubei-minyuan/minyuan_dashboard/app/assets/images/demo_drag/p6.png" alt="6" data-num="6" title="6"></li>
+                <li><img src="../../pro/hubei-minyuan/minyuan_dashboard/app/assets/images/demo_drag/p9.png" alt="9" data-num="9" title="9"></li>
+
+                <!-- <li><a href="/reputation/my_monitor">我的监测</a></li> -->
+            </ul>
+        </div>
+
+        <!--<a class="" href="/reputation/mine">我的监测</a>-->
+    </div>
+    <div class="content">
+        <div class="home_page_con home_page_bg page_display">
+            <!--############################################################-->
+            <ul>
+                <p style="width: 40px;height: 40px;background: url('../../pro/hubei-minyuan/minyuan_dashboard/app/assets/images/demo_drag/remove.png') no-repeat; background-size:100% 100%;position: absolute;top: -10px;left: 160px;z-index: 200;"></p>
+                <li><img src="../img/1.png"></li>
+                <li><img src="../img/2.png"></li>
+                <li><img src="../img/3.png"></li>
+                <li><img src="../img/4.png"></li>
+                <li><img src="../img/5.png"></li>
+                <li><img src="../img/6.png"></li>
+                <li><img src="../img/7.png"></li>
+                <li><img src="../img/8.png"></li>
+                <li><img src="../img/9.png">
+                </li>
+            </ul>
+            <!--############################################################-->
+        </div>
+        <script type="text/javascript" charset="utf-8">
+            var myChart1 = echarts.init(document.getElementById('level1'));
+            var option = {
+                color: ["#019ae6", "#049fef", "#3ebeff", "#2ab7ff", "#0facfb"],
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{b}: {c}次"
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        selectedMode: 'single',
+                        radius: [0, '30%'],
+
+                        label: {
+                            normal: {
+                                formatter: '{b}\t\n\t\n{c}次',
+                                position: 'center',
+                                textStyle: {
+                                    color: '#fff'
+                                }
+                            }
+                        },
+                        data: [
+                            {value: 0, name: '今日预警'}
+                        ]
+                    },
+                    {
+                        type: 'pie',
+                        minAngle: 30,
+                        radius: ['45%', '70%'],
+                        label: {
+                            normal: {
+                                formatter: '{d}%\t{c}次\n{b}',
+                                textStyle: {
+                                    color: '#fff'
+                                }
+                            },
+                        },
+                        data: [
+                            {value: 0, name: '舆论主题预警'},
+                            {value: 0, name: '单条信息热度预警'},
+                            {value: 0, name: '负面信息预警'},
+                            {value: 0, name: '信息暴增预警'}
+                        ]
+                    }
+                ]
+            };
+            myChart1.setOption(option);
+            myChart1.on('click', function eConsole(param) {
+                if (param.seriesIndex == 0) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/reputation/home/warning_today',
+                        dataType: 'script',
+                    });
+                }
+            });
+
+
+            var myChart = echarts.init(document.getElementById('ec_trend'));
+            option = {
+                color: ['#0499fd', '#ff9103'],
+                title: {},
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['舆情趋势']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        splitLine: {show: false},
+                        type: 'category',
+                        boundaryGap: false,
+                        // data: ['01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00']
+                        data: ["2016-08-12", "2016-08-13", "2016-08-14", "2016-08-15", "2016-08-16", "2016-08-17", "2016-08-18"],
+                        nameTextStyle: {
+                            color: '#fff'
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        axisLine: {
+                            show: false,
+                        },
+                        axisTick: {
+                            show: false,
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        splitLine: {show: false},
+                        type: 'value',
+                        nameTextStyle: {
+                            color: '#fff'
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        axisLine: {
+                            show: false,
+                        },
+                        axisTick: {
+                            show: false,
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                color: 'rgba(255,255,255,0.1)',
+                                // type:'dashed'
+                            }
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: '趋势',
+                        type: 'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        // data:[120, 132, 101, 134, 90, 230, 210, 134, 90, 230, 210,159]
+                        data: [1230, 1424, 1294, 609, 639, 698, 333]
+                    },
+                ]
+            };
+            myChart.setOption(option);
+
+            var myChart = echarts.init(document.getElementById('ec_medias'));
+            var option = {
+                color: ['#26a1ff', '#ffa809', '#b0dc00', '#fecf39', '#0881de', "#4dc207", '#ff79aa', '#7982ff', '#18adde'],
+                title: {
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ["\u767e\u5ea6\u65b0\u95fb(6)", "\u65b0\u6d6a\u5fae\u535a(0)", "\u767e\u5ea6\u8d34\u5427(327)"],
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                series: [
+                    {
+                        name: '媒体分布',
+                        type: 'pie',
+                        minAngle: 5,
+                        radius: '65%',
+                        center: ['50%', '60%'],
+                        data: [
+                            {value: 6, name: '百度新闻(6)'},
+                            {value: 0, name: '新浪微博(0)'},
+                            {value: 327, name: '百度贴吧(327)'},
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        </script>
+
+
+    </div>
+
+    <!--<script src="/assets/jquery.sparkline.js"></script>
+    <script src="/assets/jquery.multiselect2side.js"></script>-->
+    <script src="reputation.js" type="text/javascript"></script>
+
+
+    <div style="clear: both; display: block;"></div>
+</div>
+<!--############################################################-->
+<script>
+    //    下面的js是处理页面显示的
+    var pageListUl = $("ul.page_list");
+    //    console.log(pageListUl);
+    var num = 9;
+    pageListUl.delegate('img', 'click', function (e) {
+        num = e.target.getAttribute('data-num');
+        pageDisplay(num);
+//        console.log($(".page_display li"));
+        pageDisplayToPos(num);
+    })
+    function pageDisplay(num) {
+        //根据传回来的参数，对页面的区块数量进行定制
+        var str = '<li><img src=""></li>';
+        var str2 = "";
+        for (var i = 0; i < num; i++) {
+            str2 += str;
+        }
+        var pageDisUl = $('.page_display>ul');
+        pageDisUl.empty().append(str2);
+        //定制页面显示区域的img内容宽高
+        /*        console.log(num);*/
+        //10是li的margin(5+5)
+        if (num != 6) {
+            var w = pageDisUl.width() / Math.sqrt(num) - 10;
+            var h = pageDisUl.height() / Math.sqrt(num) - 10;
+            $('.page_display>ul img').css({width: w, height: h})
+        } else if (num == 6) {
+            var w6 = pageDisUl.width() / 3 - 10;
+            var h6 = pageDisUl.height() / 3 - 10;
+            /*            console.log(w6);
+             console.log(h6);*/
+            var w2 = w6 * 2 + 10;
+            var h2 = h6 * 2 + 10;
+            var imgList6 = $('.page_display>ul img');
+            //其他的为小图
+            imgList6.css({'width': w6, 'height': h6});
+            //第二个为大图
+            imgList6[1].style.width = w2 + "px";
+            imgList6[1].style.height = h2 + "px";
+            //5是ul的padding值，此处可以设置为动态的内容
+            //调整第三个图的位置
+            $($('.page_display>ul>li')[2]).css({
+                width: w6,
+                height: h6,
+                position: 'absolute',
+                left: 5,
+                top: w6 + 10 + 5
+            });
+        }
+        //将需要添加进页面的内容进行清空，以便更换的时候不会重复累加
+
+        //console.log($('.page_display>ul').children().length);
+    }
+
+    //  将li全部转换为absolute
+    //注意，这里要反着改。
+    function pageDisplayToPos(num) {
+        /*        var oUlOffset = $(".page_display>ul").offset();
+         var xDel = oUlOffset.left + 5;
+         var yDel = oUlOffset.top + 5;*/
+
+        Array.prototype.reverse.call($(".page_display li")).each(function () {
+            var x = $(this).offset().left;
+            var y = $(this).offset().top;
+            var xR = x + $(this).width();
+            var yB = y + $(this).height();
+            var w = $(this).width();//这个-4是边框的宽度
+            var h = $(this).height();
+            //存入这个li的位置信息到他的属性data-position上，格式为{"xL":244.5,"xR":774.5,"yT":84,"yB":614}
+            var dataObj = {
+                'xL': x,
+                'xR': xR,
+                'yT': y,
+                'yB': yB,
+                'width': w,
+                'height': h,
+                'size': "normal"
+
+            };
+
+            if (num == 6 && $(this).index() == 1) {
+                dataObj.size = "big";
+            }
+            dataJson = JSON.stringify(dataObj);
+            $(this).css({
+                position: 'absolute',
+                left: (x - delX ),
+                top: (y - delY),
+                'z-index': 1
+            }).attr("data-position", dataJson);
+            //console.log($(this).attr('data-position'));
+            str2 = "";
+        })
+    }
+</script>
+<script>
+    //    下面的代码是处理图片添加到页面中的
+    var box = $(".home_page_w");
+    var imgList = $('.img_list');
+    var pageDisplayUl = $(".page_display>ul");
+    var delX = pageDisplayUl.offset().left + 5;
+    var delY = pageDisplayUl.offset().top + 5;
+    var flag = 0;
+    imgList.delegate('img', 'mousedown', imgMouseDown);
+    /*    imgList.delegate('img', 'mouseenter', imgMouseEnter);
+     function imgMouseEnter() {
+     imgList.delegate('img', 'mousedown', imgMouseDown);
+     }*/
+    function imgMouseDown(e) {
+        box.delegate('img', 'mousemove', imgMouseMove);
+        box.off('mouseup', imgMouseUp).delegate('img', 'mouseup', imgMouseUp);
+        $(".dropdown.item.open").removeClass('open');
+        var oldPageX = e.pageX - 50;
+        var oldPageY = e.pageY - 50;
+        //将被点击的视图的clone添加到页面末尾，同时将这个图片的位置设置为鼠标按下的位置为这个图片的中心点
+        $('#moveImg').remove();
+        box.append($(e.target).clone().css({
+            width: 100,
+            height: 100,
+            position: 'absolute',
+            left: oldPageX,
+            top: oldPageY,
+            'z-index': 101,
+            cursor: 'move'
+        }).attr('id', 'moveImg'));
+        var moveImg = $('#moveImg');
+        moveImg.attr('data-src', moveImg.attr('src'));
+        console.log("down");
+    }
+    function imgMouseMove(e) {
+//      处理移动跟随
+        e.preventDefault();
+        console.log('move');
+        var moveImg = $('#moveImg');
+        moveImg.css({
+            top: (e.pageY - 50),
+            left: (e.pageX - 50)
+        });
+        $(".page_display li").each(function () {
+            $(this).css({'border': 'none'});
+            var x = e.pageX;
+            var y = e.pageY;
+            var prev = $(this).prev();
+            var positionObj = JSON.parse($(this).attr('data-position'));
+            if (y > positionObj.yT && y < positionObj.yB) {
+//                    e.page大于他自己的xL,小于他自己的xR
+                if (x > positionObj.xL && x < positionObj.xR) {
+                    //console.log("在区块中");
+                    $(this).css({
+                        'border': '2px solid red',
+                        top: ($(this).css('top') - 1),
+                        left: ($(this).css('left') - 1)
+                    });
+                    flag = 0;
+                    pageDisplayUl.children('div').remove();
+                } else if (prev.length > 0) {
+                    var prevPosObj = JSON.parse(prev.attr('data-position'));
+//                    e.pageX小于他哥哥的xL,大于他自己的xR
+                    if (x < positionObj.xL && x > prevPosObj.xR) {
+                        console.log("在这个$(this)和他哥哥的中间");
+                        //如果其中都没有内容
+                        if (flag == 0) {
+                            var _this = $(this);
+                            if (_this.children().attr('src') == "" && prev.children().attr('src') == "") {
+                                console.log(flag);
+                                console.log(1);
+                                var str = '<div id="addBorder" style="border: 2px solid red; position: absolute; z-index: 0;"></div>';
+                                pageDisplayUl.append(str);
+                                $("#addBorder").css({
+                                    'top': parseInt(prev.css('top')) + 3,
+                                    'left': parseInt(prev.css('left')) + 3,
+                                    'width': _this.width() + prev.width() + 4 + 10,
+                                    //10是padding，4是border
+                                    'height': _this.height() + 4
+                                });
+                                flag = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        if (e.target.id == "moveImg") {
+            //处理交换位置之后，无法再次对页面区块内容进行更换
+            box.off('mouseup', imgMouseUp).off('mouseup', displayMouseUp).delegate('img', 'mouseup', imgMouseUp);
+        }
+//console.log(e.target);
+//        box.off('mouseenter', imgMouseEnter);
+        box.off('mousedown', imgMouseDown);
+        return false;
+    }
+    function imgMouseUp(e) {
+        var moveImg = $('#moveImg');
+//      处理释放
+        var x = e.pageX;
+        var y = e.pageY;
+
+        console.log("up");
+        console.log(moveImg.attr('data-src'));
+        cursorSrcOld = moveImg.attr('data-src');
+
+        $(".page_display li").each(function () {
+
+            var positionObj = JSON.parse($(this).attr('data-position'));
+            if (x > positionObj.xL && x < positionObj.xR) {
+                if (y > positionObj.yT && y < positionObj.yB) {
+
+                    $(this).children().attr('src', cursorSrcOld);
+                    $(this).css({'border': 'none'})
+                }
+            }
+
+        });
+        moveImg.remove();
+        box.off('mousemove', imgMouseMove);
+    }
+    //   下面的代码是可以对显示区域的图片进行拖动位置替换的
+    pageDisplayUl.delegate('img', 'mousedown', displayMouseDown);
+    /* pageDisplayUl.delegate('img', 'mouseenter', displayMouseEnter);
+     function displayMouseEnter() {
+     console.log("enter1");
+
+     pageDisplayUl.delegate('img', 'mousedown', displayMouseDown);
+     }*/
+    function displayMouseDown(e) {
+        $(this).attr('id', 'moveDisImg');
+        console.log("down1");
+        box.delegate('img', 'mousemove', displayMouseMove);
+        /*        console.log(e.target);*/
+        box.off('mouseup', imgMouseUp).off('mouseup', displayMouseUp).delegate('img', 'mouseup', displayMouseUp);
+    }
+    function displayMouseMove(e) {
+        var moveDisImg = $("#moveDisImg");
+//        console.log("move1");
+        e.preventDefault();
+        /*        //显示区域距离屏幕顶部，左侧的距离需要一并减去
+         var delX = pageDisplayUl.offset().left;
+         var delY = pageDisplayUl.offset().top;*/
+        var x = e.pageX - moveDisImg.width() / 2 - delX;
+        var y = e.pageY - moveDisImg.height() / 2 - delY;
+        //将被移动的图片显示的层级提高
+        moveDisImg.parent().css({top: y, left: x, 'z-index': 100});
+        //检测被移动的图片，在哪个区块接触的面积大，和那个区块进行位置的对调。
+        /*=================================================*/
+
+        pageDisplayUl.children().each(function () {
+
+//          先将所有的都清掉
+            if ($(this).children() == $("#moveDisImg")) {
+                return
+            }
+            $(this).css({'border': 'none'}).removeAttr('id');
+            var x = e.pageX;
+            var y = e.pageY;
+            var positionObj = JSON.parse($(this).attr('data-position'));
+            /*            console.info(x);
+             console.info(y);
+
+             console.info(positionObj);*/
+//            鼠标在哪个区块里面，那个区块就加边框，加ID  changeDisImg，便于替换
+// 不能和自己比
+
+            if (x > positionObj.xL && x < positionObj.xR) {
+                if (y > positionObj.yT && y < positionObj.yB) {
+//                    console.log($(this).children());
+//                    给被撞上的li加上id和边框
+                    $(this).css({
+                        'border': '2px solid red',
+                        top: ($(this).css('top') - 1),
+                        left: ($(this).css('left') - 1)
+                    }).attr('id', 'changeDisImgParent');
+                }
+            }
+        });
+        /*=================================================*/
+        box.off('mousedown', displayMouseDown);
+        return false;
+    }
+    function displayMouseUp(e) {
+        console.log("up1");
+        var moveDisImg = $("#moveDisImg");
+        var moveDisImgParent = moveDisImg.parent();
+        var changeDisImgParent = $("#changeDisImgParent");
+        var changeDisImg = changeDisImgParent.children();
+        var tempObj = {};
+        tempObj.data = {};
+        tempObj.data.position = changeDisImgParent.attr('data-position');
+//        console.log(tempObj);
+
+        changeDisImgParent.attr('data-position', moveDisImgParent.attr('data-position'));
+        moveDisImgParent.attr('data-position', tempObj.data.position);
+
+        var changeDisImgParentJson = JSON.parse(changeDisImgParent.attr('data-position'));
+        var moveDisImgParentJson = JSON.parse(moveDisImgParent.attr('data-position'));
+        //这个changeDisImgParentJson的格式为Object Object {xL: 244.5, xR: 504.5, yT: 84, yB: 344, width: 260, height: 260}
+        /*        console.log(changeDisImgParentJson);
+         console.log(moveDisImgParentJson);*/
+        moveDisImg.width(moveDisImgParentJson.width).height(moveDisImgParentJson.height);
+
+        changeDisImg.width(changeDisImgParentJson.width).height(changeDisImgParentJson.height);
+
+
+//这个方法解决的是，区块大小不一时，兑换位置的大小会出现问题
+        changeDisImgParent.css({
+            top: changeDisImgParentJson.yT - delY,
+            left: changeDisImgParentJson.xL - delX,
+            'z-index': 1,
+            'border': 'none'
+        })
+                .width(changeDisImgParentJson.width)
+                .height(changeDisImgParentJson.height)
+                .removeAttr('id');
+        moveDisImgParent.css({
+            top: moveDisImgParentJson.yT - delY,
+            left: moveDisImgParentJson.xL - delX,
+            'z-index': 1
+        })
+                .width(moveDisImgParentJson.width)
+                .height(moveDisImgParentJson.height);
+        disChange(e, num, moveDisImgParentJson, changeDisImgParentJson);
+
+
+        moveDisImg.removeAttr('id');
+
+//        moveDisImg.animate().removeAttr('id').parent().css('z-index',1);
+        box.off('mousemove', displayMouseMove);
+//        pageDisplayUl.off('mousedown',displayMouseDown);
+        return false;
+    }
+
+    //    下面的代码处理显示区块大小不一的问题
+    function disChange(e, num, moveDisImgParentJson, changeDisImgParentJson) {
+        var dataObj = JSON.parse($(e.target).parent().attr('data-position'));
+        console.log(dataObj.size);
+        console.log(changeDisImgParentJson);
+        console.log(moveDisImgParentJson);
+        switch (parseInt(num)) {
+            case 6:
+                if (moveDisImgParentJson.size == "big") {
+                    console.log("ok1")
+                } else if (changeDisImgParentJson.size == 'big') {
+                    console.log("ok2")
+                } else if (dataObj.size == 'big') {
+                    console.log("?");
+                }
+                break;
+            default:
+                return;
+        }
+    }
+    function addBorder(e) {
+        var x = e.pageX;
+        var y = e.pageY;
+
+    }
+    //    以下代码是用于双击区块内的img，出现删除按钮，实现删除img的功能
+    pageDisplayUl.delegate('img', 'dblclick', function (e) {
+        var targetP=$(e.target).parent();
+
+        var removePStr = '<p style="width: 40px;height: 40px;background: url(../../pro/hubei-minyuan/minyuan_dashboard/app/assets/images/demo_drag/remove.png) no-repeat; background-size:100% 100%;position: absolute;z-index: 200;cursor:pointer" id="removeImg"></p>';
+        pageDisplayUl.append(removePStr);
+        var removeImg = $("#removeImg");
+        removeImg.css({
+//           top: 0-(40/2-10)
+            'top': (parseInt(targetP.css('top')) - (removeImg.height() / 2 - parseInt(pageDisplayUl.css('padding')) * 2)),
+            'left': (parseInt(targetP.css('left')) - parseInt(pageDisplayUl.css('padding')) * 2 + targetP.width())
+        }).on('click', function () {
+            e.target.src = "";
+            $(this).remove();
+        });
+        //点击任意非删除按钮的位置，删除按钮
+        $(document).on('click', function () {
+            removeImg.remove();
+        })
+
+    })
+</script>
+<script>
+    /*
+     * 几个问题未处理
+     * 1.边界检测，图片拖动到边界的问题
+     * 2.6个的时候，大图变小的问题，     --ok
+     * 3.碰撞检测，不够准确，现在是靠鼠标的位置进行定位的(不是按照最大接触面积进行处理的,也没有处理不能和自己比的问题(被拖动的右边和$(this)的左边比，下边和上边比，前者大，或者左边和右边比，上边和下边比，前者小，都是没有撞上，反之，要检测撞上区域的大小那个更大，)
+     * 4.内容添加到页面的时候，如果down完直接up，没有move的时候，没法释放图片到页面内     --ok
+     * 5.鼠标在中间位置的时候的处理【检测左右两个是否有src，没有的话，就合并单元格】
+     * 6.拖动之后，在往里加内容的时候，就没法up了      --ok
+     *
+     * */
+</script>
+</body>
+</html>
