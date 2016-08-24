@@ -268,7 +268,7 @@
             };
 
             if (num == 6 && $(this).index() == 1) {
-                dataObj.size = "big";
+                dataObj.size = "tooBig";
             }
             dataJson = JSON.stringify(dataObj);
             $(this).css({
@@ -290,8 +290,12 @@
     var delX = pageDisplayUl.offset().left + 5;
     var delY = pageDisplayUl.offset().top + 5;
     var flag = 0;
+    //鼠标move的时候，鼠标加了大的边框的时候flag=1，没加的时候为0
     var posThis = "";
     var _$this = "";
+    //鼠标move的时候，鼠标在区块中的时候，where=1，没在区块中的时候，where=0
+    var where = 0;
+    //加了大的边框的时候where
     imgList.delegate('img', 'mousedown', imgMouseDown);
     /*    imgList.delegate('img', 'mouseenter', imgMouseEnter);
      function imgMouseEnter() {
@@ -328,36 +332,9 @@
             top: (e.pageY - 50),
             left: (e.pageX - 50)
         });
-        var imgAry = [];
-        var where = 0;
-        $(".page_display li").each(function () {
-            $(this).css({'border': 'none'});
-            var x = e.pageX;
-            var y = e.pageY;
-            var _$this = $(this);
-            var _$thisPositionObj = JSON.parse($(this).attr('data-position'));
-            if (y > _$thisPositionObj.yT && y < _$thisPositionObj.yB && _$thisPositionObj.size != "big") {
-                imgAry.push(_$this);
-//                    e.page大于他自己的xL,小于他自己的xR
-                if (x > _$thisPositionObj.xL && x < _$thisPositionObj.xR) {
-//                    console.log("在区块中");
-                    $(this).css({
-                        'border': '2px solid red',
-                        top: ($(this).css('top') - 1),
-                        left: ($(this).css('left') - 1)
-                    });
-                    flag = 0;
-                    pageDisplayUl.children('div').remove();
-                    where = 1;
-                    return;
-                }
-            }
-//            console.log(imgAry);
-        });
-        console.log(where);
-        if (imgAry.length > 1 && where == 0) {
-            addBorder(e, imgAry);
-        }
+        var x=e.pageX;
+        var y=e.pageY;
+        addImgAry(x,y);
 
         if (e.target.id == "moveImg") {
             //处理交换位置之后，无法再次对页面区块内容进行更换
@@ -381,7 +358,7 @@
         $(".page_display li").each(function () {
 
             var positionObj = JSON.parse($(this).attr('data-position'));
-
+            //加了大的边框的时候flag=1，没加的时候为0
             if (flag == 1) {
 
                 var w = $("#addBorder").width();
@@ -412,6 +389,8 @@
             $("#addBorder").remove();
         }
         moveImg.remove();
+        console.log("where="+where);
+
         box.off('mousemove', imgMouseMove);
     }
     //   下面的代码是可以对显示区域的图片进行拖动位置替换的
@@ -440,31 +419,18 @@
         /*        //显示区域距离屏幕顶部，左侧的距离需要一并减去
          var delX = pageDisplayUl.offset().left;
          var delY = pageDisplayUl.offset().top;*/
-        var x = e.pageX - moveDisImg.width() / 2 - delX;
-        var y = e.pageY - moveDisImg.height() / 2 - delY;
+        var x = e.pageX;
+        var y = e.pageY;
+        var x2 = x - moveDisImg.width() / 2 - delX;
+        var y2 = y - moveDisImg.height() / 2 - delY;
         //将被移动的图片显示的层级提高
-        moveDisImg.parent().css({top: y, left: x, 'z-index': 100});
+        moveDisImg.parent().css({top: y2, left: x2, 'z-index': 100});
         //检测被移动的图片，在哪个区块接触的面积大，和那个区块进行位置的对调。
         /*=================================================*/
 
-        $(".page_display li").each(function () {
+            addImgAry(x,y);
 
-//          先将所有的都清掉
-            if ($(this).children() == $("#moveDisImg")) {
-                return
-            }
-            $(this).css({'border': 'none'}).removeAttr('id');
-            var x = e.pageX;
-            var y = e.pageY;
-
-            var positionObj = JSON.parse($(this).attr('data-position'));
-            /*            console.info(x);
-             console.info(y);
-
-             console.info(positionObj);*/
-//            鼠标在哪个区块里面，那个区块就加边框，加ID  changeDisImg，便于替换
-// 不能和自己比
-            if (y > positionObj.yT && y < positionObj.yB) {
+            /*if (y > positionObj.yT && y < positionObj.yB) {
                 if (x > positionObj.xL && x < positionObj.xR) {
 //                    console.log($(this).children());
 //                    给被撞上的li加上id和边框
@@ -475,9 +441,10 @@
                     }).attr('id', 'changeDisImgParent');
                 }else{
 //                    这里是新增的，处理替换并合并区块内容的代码，以及拆分区块的代码
+
                 }
-            }
-        });
+            }*/
+
         /*=================================================*/
         box.off('mousedown', displayMouseDown);
         return false;
@@ -564,11 +531,71 @@
 
     }
     // 检测需要增加边框的位置
-    function addBorder(e, imgAry, callback) {
+    function addImgAry(x,y) {
+        var imgAry = [];
+
+//        var x = e.pageX;
+//        var y = e.pageY;
+        $(".page_display li").each(function () {
+            $(this).css({'border': 'none'});
+            //          先将所有的都清掉
+            if ($(this).children() == $("#moveDisImg")) {
+                return
+            }
+            $(this).removeAttr('id');
+
+            var _$this = $(this);
+            var _$thisPositionObj = JSON.parse(_$this.attr('data-position'));
+            if (y > _$thisPositionObj.yT && y < _$thisPositionObj.yB ) {
+                if(_$thisPositionObj.size != "tooBig"){
+                    //处理的是不能和最大的一个区块合并的问题
+                    imgAry.push(_$this);
+                }
+
+//                    e.page大于他自己的xL,小于他自己的xR
+
+                if (x > _$thisPositionObj.xL && x < _$thisPositionObj.xR) {
+                    console.log("在区块中");
+                    $(".page_display li").each(function () {
+//                      先清除所有的区块的border
+                        $(this).css({'border': 'none'});
+                    });
+//                    再给在$(this)（现在鼠标在这个区块内部）加上边框
+                    $(this).css({
+                        'border': '2px solid red',
+                        top: ($(this).css('top') - 1),
+                        left: ($(this).css('left') - 1)
+                    }).attr('id', 'changeDisImgParent');
+                    console.log( $("#addBorder"));
+                    $("#addBorder").remove();
+                    //鼠标在哪个区块里面，那个区块就加边框，加ID  changeDisImgParent，便于替
+                    //给被撞上的li加上id和边框
+
+                    flag = 0;
+//                  在区块中的时候，没有加大的边框，flag=0，---加了大的边框的时候flag=1，没加的时候为0
+                    where = 1;
+//                  在区块中的时候，where=1，没在区块中的时候，where=0
+
+//                  删除大的边框
+                    return false;
+                }else{
+//                    console.info("没在区块内的时候，where=0");
+                    where=0;
+                    if (imgAry.length > 1 && where == 0) {
+                        addBorder(x, imgAry);
+                    }
+                }
+
+            }
+            console.log(imgAry);
+        });
+        console.log("where="+where);
+
+    }
+    function addBorder(x, imgAry, callback) {
 
         if (imgAry.length == 0)return;
 
-        var x = e.pageX;
 //        console.log(imgAry[0].css('left'), imgAry[1].css('left'), imgAry[2].css('left'));//所有一横排的li都被push到了这个数组里面
         if (imgAry.length == 3) {
             var r = Math.max(parseInt(imgAry[0].css('left')), parseInt(imgAry[1].css('left')), parseInt(imgAry[2].css('left')));
@@ -596,11 +623,12 @@
                 }
             }
         } else if (imgAry.length == 2) {
+//            数组中li只有2个的时候，只有imgAryLeft和imgAryMiddle，这样便于复用
             var r = Math.max(parseInt(imgAry[0].css('left')), parseInt(imgAry[1].css('left')));
             var l = Math.min(parseInt(imgAry[0].css('left')), parseInt(imgAry[1].css('left')));
 
-            var imgAryLeft = (l + "px" == imgAry[0].css('left') ? imgAry[0] : (l + "px" == imgAry[1].css('left') ? imgAry[1] : imgAry[0]));
-            var imgAryMiddle = (r + "px" == imgAry[0].css('left') ? imgAry[0] : (r + "px" == imgAry[1].css('left') ? imgAry[1] : imgAry[0]));
+            imgAryLeft = (l + "px" == imgAry[0].css('left') ? imgAry[0] : (l + "px" == imgAry[1].css('left') ? imgAry[1] : imgAry[0]));
+            imgAryMiddle = (r + "px" == imgAry[0].css('left') ? imgAry[0] : (r + "px" == imgAry[1].css('left') ? imgAry[1] : imgAry[0]));
         }
         var $thisPositionObjLeft = JSON.parse(imgAryLeft.attr('data-position'));
         var $thisPositionObjMiddle = JSON.parse(imgAryMiddle.attr('data-position'));
@@ -651,6 +679,7 @@
                     //10是padding，4是border
                     'height': posThis.height() + 4
                 });
+
                 flag = 1;
 
                 return;
