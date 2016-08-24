@@ -419,11 +419,15 @@
      pageDisplayUl.delegate('img', 'mousedown', displayMouseDown);
      }*/
     function displayMouseDown(e) {
+        if (e.type == "contextmenu") {
+            return
+        }
+        ;
         $(this).attr('id', 'moveDisImg');
 //        console.log("down1");
+        box.off('mouseup', imgMouseUp).off('mouseup', displayMouseUp);
         box.delegate('img', 'mousemove', displayMouseMove);
-        /*        console.log(e.target);*/
-        box.off('mouseup', imgMouseUp).off('mouseup', displayMouseUp).delegate('img', 'mouseup', displayMouseUp);
+        box.delegate('img', 'mouseup', displayMouseUp);
     }
     function displayMouseMove(e) {
         var moveDisImg = $("#moveDisImg");
@@ -474,7 +478,7 @@
         return false;
     }
     function displayMouseUp(e) {
-        console.log("up1");
+
         var moveDisImg = $("#moveDisImg");
         var moveDisImgParent = moveDisImg.parent();
         var changeDisImgParent = $("#changeDisImgParent");
@@ -483,30 +487,40 @@
         tempObj.data = {};
         tempObj.data.position = changeDisImgParent.attr('data-position');
 //        console.log(tempObj);
+        //下面的if判断是处理的Unexpected token u报错的问题，是因为down 再up的时候，没有changeDisImgParent，所以就报这个错误了
+        if (changeDisImgParent && changeDisImgParent.length > 0) {
+            if (changeDisImgParent.attr('id') == moveDisImgParent.attr('id')) {
+                console.log("up1");
+            }
+            changeDisImgParent.attr('data-position', moveDisImgParent.attr('data-position'));
 
-        changeDisImgParent.attr('data-position', moveDisImgParent.attr('data-position'));
+            var changeDisImgParentJson = JSON.parse(changeDisImgParent.attr('data-position'));
+
+            changeDisImg.width(changeDisImgParentJson.width).height(changeDisImgParentJson.height);
+
+
+//这个方法解决的是，区块大小不一时，兑换位置的大小会出现问题
+            changeDisImgParent.css({
+                top: changeDisImgParentJson.yT - delY,
+                left: changeDisImgParentJson.xL - delX,
+                'z-index': 1,
+                'border': 'none'
+            })
+                    .width(changeDisImgParentJson.width)
+                    .height(changeDisImgParentJson.height)
+                    .removeAttr('id');
+
+//        moveDisImg.animate().removeAttr('id').parent().css('z-index',1);
+            box.off('mousemove', displayMouseMove);
+//        pageDisplayUl.off('mousedown',displayMouseDown);
+        }
         moveDisImgParent.attr('data-position', tempObj.data.position);
 
-        var changeDisImgParentJson = JSON.parse(changeDisImgParent.attr('data-position'));
         var moveDisImgParentJson = JSON.parse(moveDisImgParent.attr('data-position'));
         //这个changeDisImgParentJson的格式为Object Object {xL: 244.5, xR: 504.5, yT: 84, yB: 344, width: 260, height: 260}
         /*        console.log(changeDisImgParentJson);
          console.log(moveDisImgParentJson);*/
         moveDisImg.width(moveDisImgParentJson.width).height(moveDisImgParentJson.height);
-
-        changeDisImg.width(changeDisImgParentJson.width).height(changeDisImgParentJson.height);
-
-
-//这个方法解决的是，区块大小不一时，兑换位置的大小会出现问题
-        changeDisImgParent.css({
-            top: changeDisImgParentJson.yT - delY,
-            left: changeDisImgParentJson.xL - delX,
-            'z-index': 1,
-            'border': 'none'
-        })
-                .width(changeDisImgParentJson.width)
-                .height(changeDisImgParentJson.height)
-                .removeAttr('id');
         moveDisImgParent.css({
             top: moveDisImgParentJson.yT - delY,
             left: moveDisImgParentJson.xL - delX,
@@ -519,9 +533,7 @@
 
         moveDisImg.removeAttr('id');
 
-//        moveDisImg.animate().removeAttr('id').parent().css('z-index',1);
-        box.off('mousemove', displayMouseMove);
-//        pageDisplayUl.off('mousedown',displayMouseDown);
+
         return false;
     }
 
@@ -643,7 +655,8 @@
 
 
     //    以下代码是用于双击区块内的img，出现删除按钮，实现删除img的功能
-    pageDisplayUl.delegate('img', 'dblclick', function (e) {
+    pageDisplayUl.delegate('img', 'contextmenu', function (e) {
+        e.preventDefault();
         var targetP = $(e.target).parent();
         var removePStr = '<p style="width: 40px;height: 40px;background: url(img/remove.png) no-repeat; background-size:100% 100%;position: absolute;z-index: 200;cursor:pointer" id="removeImg"></p>';
         pageDisplayUl.append(removePStr);
@@ -660,7 +673,7 @@
         $(document).on('click', function () {
             removeImg.remove();
         })
-
+        return false;
     })
 </script>
 <script>
