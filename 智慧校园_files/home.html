@@ -295,7 +295,7 @@
     var _$this = "";
     //鼠标move的时候，鼠标在区块中的时候，where=1，没在区块中的时候，where=0
     var where = 0;
-    //加了大的边框的时候where
+    //在区块中的时候，where=1，没在区块中的时候，where=0
     imgList.delegate('img', 'mousedown', imgMouseDown);
     /*    imgList.delegate('img', 'mouseenter', imgMouseEnter);
      function imgMouseEnter() {
@@ -346,61 +346,22 @@
         return false;
     }
     function imgMouseUp(e) {
-        var moveImg = $('#moveImg');
+
 //      处理释放
         var x = e.pageX;
         var y = e.pageY;
-//
+
 //        console.log("up");
 //        console.log(moveImg.attr('data-src'));
-        cursorSrcOld = moveImg.attr('data-src');
 
-        $(".page_display li").each(function () {
-
-            var positionObj = JSON.parse($(this).attr('data-position'));
-            //加了大的边框的时候flag=1，没加的时候为0
-            if (flag == 1) {
-
-                var w = $("#addBorder").width();
-//                console.log(w);
-                var changeBigObj = JSON.parse(posThis.attr('data-position'));
-
-                changeBigObj.width = w;
-                changeBigObj.size = 'big';
-                changeBigObj.xR = changeBigObj.xL + w;
-//                console.log(changeBigObj);
-                var changeBigObjJson = JSON.stringify(changeBigObj);
-
-                posThis.css({'width': w}).attr('data-position', changeBigObjJson);
-                posThis.children().attr('src', cursorSrcOld).css({'width': w});
-                _$this.remove();
-
-            } else {
-                if (x > positionObj.xL && x < positionObj.xR) {
-                    if (y > positionObj.yT && y < positionObj.yB) {
-
-                        $(this).children().attr('src', cursorSrcOld);
-                        $(this).css({'border': 'none'})
-                    }
-                }
-            }
-        });
-        if ($("#addBorder").length > 0) {
-            $("#addBorder").remove();
-        }
-        moveImg.remove();
+        addImgDis(x,y);
 //        console.log("where="+where);
 
         box.off('mousemove', imgMouseMove);
     }
     //   下面的代码是可以对显示区域的图片进行拖动位置替换的
     pageDisplayUl.delegate('img', 'mousedown', displayMouseDown);
-    /* pageDisplayUl.delegate('img', 'mouseenter', displayMouseEnter);
-     function displayMouseEnter() {
-     console.log("enter1");
 
-     pageDisplayUl.delegate('img', 'mousedown', displayMouseDown);
-     }*/
     function displayMouseDown(e) {
         if (e.type == "contextmenu") {
             return
@@ -470,8 +431,7 @@
 
             changeDisImg.width(changeDisImgParentJson.width).height(changeDisImgParentJson.height);
 
-
-//这个方法解决的是，区块大小不一时，兑换位置的大小会出现问题
+            //这个方法解决的是，区块大小不一时，兑换位置的大小会出现问题
             changeDisImgParent.css({
                 top: changeDisImgParentJson.yT - delY,
                 left: changeDisImgParentJson.xL - delX,
@@ -486,6 +446,27 @@
             box.off('mousemove', displayMouseMove);
 //        pageDisplayUl.off('mousedown',displayMouseDown);
         }
+//        ##################################################
+        if (flag == 1) {
+            var w = $("#addBorder").width();
+//                console.log(w);
+            var changeBigObj = JSON.parse(posThis.attr('data-position'));
+            changeBigObj.width = w;
+            changeBigObj.size = 'big';
+            changeBigObj.xR = changeBigObj.xL + w;
+//                console.log(changeBigObj);
+            var changeBigObjJson = JSON.stringify(changeBigObj);
+
+            posThis.css({'width': w}).attr('data-position', changeBigObjJson);
+            posThis.children().attr('src', cursorSrcOld).css({'width': w});
+//            console.log(imgAry);
+//            这里是找不到这个imgAry的
+            console.log(_$this);
+            moveDisImg.attr('src',"");
+            _$this.remove();
+        }
+//        ##################################################
+
         moveDisImgParent.attr('data-position', tempObj.data.position);
 
         var moveDisImgParentJson = JSON.parse(moveDisImgParent.attr('data-position'));
@@ -509,7 +490,7 @@
         return false;
     }
 
-    //    下面的代码处理显示区块大小不一的问题--没有在这里用到
+    //下面的代码处理显示区块大小不一的问题--没有在这里用到
     function disChange(e, num, moveDisImgParentJson, changeDisImgParentJson) {
         //处理Uncaught SyntaxError: Unexpected token u报错
         if (e.target.parentNode.nodeName.toUpperCase() !== "LI") {
@@ -530,7 +511,7 @@
         }
 
     }
-    // 检测需要增加边框的位置
+    //检测需要增加边框的位置
     function addBorder(x,y) {
         var imgAry = [];
 
@@ -592,7 +573,7 @@
 //        console.log("where="+where);
 
     }
-//  确定需要增加合并后的边框的位置
+    //确定需要增加合并后的边框的位置
     function checkPosition(x, imgAry, callback) {
 
         if (imgAry.length == 0)return;
@@ -662,7 +643,7 @@
             callback();
         }
     }
-    //  增加边框
+    //增加边框
     function addBigBorder(posThis, _$this) {
         console.log("flag="+flag);
         //如果其中都没有内容
@@ -681,6 +662,43 @@
                 return;
             }
         }
+    }
+    //将图片内容添加到区块内
+    function addImgDis(x,y) {
+        var moveImg = $('#moveImg');
+        cursorSrcOld = moveImg.attr('data-src');
+        $(".page_display li").each(function () {
+
+            var positionObj = JSON.parse($(this).attr('data-position'));
+            //加了大的边框的时候flag=1，没加的时候为0
+            if (flag == 1) {
+                var w = $("#addBorder").width();
+//                console.log(w);
+                var changeBigObj = JSON.parse(posThis.attr('data-position'));
+                changeBigObj.width = w;
+                changeBigObj.size = 'big';
+                changeBigObj.xR = changeBigObj.xL + w;
+//                console.log(changeBigObj);
+                var changeBigObjJson = JSON.stringify(changeBigObj);
+
+                posThis.css({'width': w}).attr('data-position', changeBigObjJson);
+                posThis.children().attr('src', cursorSrcOld).css({'width': w});
+                _$this.remove();
+
+            } else {
+                if (x > positionObj.xL && x < positionObj.xR) {
+                    if (y > positionObj.yT && y < positionObj.yB) {
+
+                        $(this).children().attr('src', cursorSrcOld);
+                        $(this).css({'border': 'none'})
+                    }
+                }
+            }
+        });
+        if ($("#addBorder").length > 0) {
+            $("#addBorder").remove();
+        }
+        moveImg.remove();
     }
 
     //    以下代码是用于右击区块内的img，出现删除按钮，实现删除img的功能
