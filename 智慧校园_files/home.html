@@ -255,7 +255,8 @@
             var yB = y + $(this).height();
             var w = $(this).width();//这个-4是边框的宽度
             var h = $(this).height();
-            //存入这个li的位置信息到他的属性data-position上，格式为{"xL":244.5,"xR":774.5,"yT":84,"yB":614}
+            //存入这个li的位置信息到他的属性data-position上，格式为{xL: 244.5, xR: 774.5, yT: 84, yB: 344, width: 530,height: 260,size: "big"}
+            //size分为3种，normal，就是小区块，big就是合并后的大区块，tooBig就是6个的时候的那个最大的区块，不允许与其他的进行合并
             var dataObj = {
                 'xL': x,
                 'xR': xR,
@@ -264,7 +265,6 @@
                 'width': w,
                 'height': h,
                 'size': "normal"
-
             };
 
             if (num == 6 && $(this).index() == 1) {
@@ -326,7 +326,7 @@
     function imgMouseMove(e) {
 //      处理移动跟随
         e.preventDefault();
-        console.log('move');
+//        console.log('move');
         var moveImg = $('#moveImg');
         moveImg.css({
             top: (e.pageY - 50),
@@ -334,7 +334,7 @@
         });
         var x=e.pageX;
         var y=e.pageY;
-        addImgAry(x,y);
+        addBorder(x,y);
 
         if (e.target.id == "moveImg") {
             //处理交换位置之后，无法再次对页面区块内容进行更换
@@ -351,7 +351,7 @@
         var x = e.pageX;
         var y = e.pageY;
 //
-        console.log("up");
+//        console.log("up");
 //        console.log(moveImg.attr('data-src'));
         cursorSrcOld = moveImg.attr('data-src');
 
@@ -362,13 +362,13 @@
             if (flag == 1) {
 
                 var w = $("#addBorder").width();
-                console.log(w);
+//                console.log(w);
                 var changeBigObj = JSON.parse(posThis.attr('data-position'));
 
                 changeBigObj.width = w;
                 changeBigObj.size = 'big';
                 changeBigObj.xR = changeBigObj.xL + w;
-                console.log(changeBigObj);
+//                console.log(changeBigObj);
                 var changeBigObjJson = JSON.stringify(changeBigObj);
 
                 posThis.css({'width': w}).attr('data-position', changeBigObjJson);
@@ -389,7 +389,7 @@
             $("#addBorder").remove();
         }
         moveImg.remove();
-        console.log("where="+where);
+//        console.log("where="+where);
 
         box.off('mousemove', imgMouseMove);
     }
@@ -428,7 +428,7 @@
         //检测被移动的图片，在哪个区块接触的面积大，和那个区块进行位置的对调。
         /*=================================================*/
 
-            addImgAry(x,y);
+        addBorder(x,y);
 
             /*if (y > positionObj.yT && y < positionObj.yB) {
                 if (x > positionObj.xL && x < positionObj.xR) {
@@ -531,7 +531,7 @@
 
     }
     // 检测需要增加边框的位置
-    function addImgAry(x,y) {
+    function addBorder(x,y) {
         var imgAry = [];
 
 //        var x = e.pageX;
@@ -566,7 +566,7 @@
                         top: ($(this).css('top') - 1),
                         left: ($(this).css('left') - 1)
                     }).attr('id', 'changeDisImgParent');
-                    console.log( $("#addBorder"));
+
                     $("#addBorder").remove();
                     //鼠标在哪个区块里面，那个区块就加边框，加ID  changeDisImgParent，便于替
                     //给被撞上的li加上id和边框
@@ -582,17 +582,18 @@
 //                    console.info("没在区块内的时候，where=0");
                     where=0;
                     if (imgAry.length > 1 && where == 0) {
-                        addBorder(x, imgAry);
+                        checkPosition(x, imgAry);
                     }
                 }
 
             }
-            console.log(imgAry);
+//            console.log(imgAry);
         });
-        console.log("where="+where);
+//        console.log("where="+where);
 
     }
-    function addBorder(x, imgAry, callback) {
+//  确定需要增加合并后的边框的位置
+    function checkPosition(x, imgAry, callback) {
 
         if (imgAry.length == 0)return;
 
@@ -655,21 +656,18 @@
         }
         console.info(posThis, _$this);
 
-        then(posThis, _$this);
+        addBigBorder(posThis, _$this);
 
         if (typeof callback == 'function') {
             callback();
         }
     }
     //  增加边框
-    function then(posThis, _$this) {
-        console.log(flag);
-        console.log("zhixingle");
+    function addBigBorder(posThis, _$this) {
+        console.log("flag="+flag);
         //如果其中都没有内容
         if (flag == 0) {
             if (posThis.children().attr('src') == "" && _$this.children().attr('src') == "") {
-                console.log(flag);
-                console.log(123);
                 var str = '<div id="addBorder" style="border: 2px solid red; position: absolute; z-index: 0;"></div>';
                 pageDisplayUl.append(str);
                 $("#addBorder").css({
@@ -679,16 +677,13 @@
                     //10是padding，4是border
                     'height': posThis.height() + 4
                 });
-
                 flag = 1;
-
                 return;
             }
         }
     }
 
-
-    //    以下代码是用于双击区块内的img，出现删除按钮，实现删除img的功能
+    //    以下代码是用于右击区块内的img，出现删除按钮，实现删除img的功能
     pageDisplayUl.delegate('img', 'contextmenu', function (e) {
         e.preventDefault();
         var targetP = $(e.target).parent();
