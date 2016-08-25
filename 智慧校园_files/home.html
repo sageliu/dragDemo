@@ -279,10 +279,11 @@
         Array.prototype.reverse.call($(".page_display li")).each(function () {
             var x = $(this).offset().left;
             var y = $(this).offset().top;
-            var xR = x + $(this).width();
-            var yB = y + $(this).height();
             var w = $(this).width();//这个-4是边框的宽度
             var h = $(this).height();
+            var xR = x + w;
+            var yB = y + h;
+
             //存入这个li的位置信息到他的属性data-position上，格式为{xL: 244.5, xR: 774.5, yT: 84, yB: 344, width: 530,height: 260,size: "big"}
             //size分为3种，normal，就是小区块，big就是合并后的大区块，tooBig就是6个的时候的那个最大的区块，不允许与其他的进行合并
             var dataObj = {
@@ -327,13 +328,17 @@
     //在区块中的时候，where=1，没在区块中的时候，where=0
     var count = 0;
     //remove的按钮只能出现一次，没有出现的时候count =0，出现一次为count =1
+    var changeBigObj ="";
+    var _$thisBigObj ="";
+    //将合并的两者的data-position进行存储，以便拆分的时候使用
+
     imgList.delegate('img', 'mousedown', imgMouseDown);
     /*    imgList.delegate('img', 'mouseenter', imgMouseEnter);
      function imgMouseEnter() {
      imgList.delegate('img', 'mousedown', imgMouseDown);
      }*/
     function imgMouseDown(e) {
-        //如果右键菜单在的时候，就将它隐藏
+        //如果右键自定义菜单在的时候，就将它隐藏
         if(count==1){
 //      $("#removeImg").remove();
             $("#my_contextmenu").hide();
@@ -392,7 +397,7 @@
 //        console.log(moveImg.attr('data-src'));
 
         addImgDis(x, y);
-//        console.log("where="+where);
+        console.log("where="+where);
 
         box.off('mousemove', imgMouseMove);
     }
@@ -438,6 +443,12 @@
         var tempObj = {};
         tempObj.data = {};
         tempObj.data.position = changeDisImgParent.attr('data-position');
+        if(changeDisImgParent.attr('data-big')&&changeDisImgParent.attr('data-big').length>0){
+            tempObj.data.big = changeDisImgParent.attr('data-big');
+        }else{
+            tempObj.data.big="";
+        }
+
 //        console.log(tempObj);
         //下面的if判断是处理的Unexpected token u报错的问题，是因为down 再up的时候，没有changeDisImgParent，所以就报这个错误了
 
@@ -446,6 +457,11 @@
                 console.log("up1");
             }
             changeDisImgParent.attr('data-position', moveDisImgParent.attr('data-position'));
+            if(moveDisImgParent.attr('data-big')&&moveDisImgParent.attr('data-big').length>0){
+                changeDisImgParent.attr('data-big', moveDisImgParent.attr('data-big'));
+            }else{
+                changeDisImgParent.attr('data-big',"");
+            }
 
             var changeDisImgParentJson = JSON.parse(changeDisImgParent.attr('data-position'));
 
@@ -461,26 +477,23 @@
                     .width(changeDisImgParentJson.width)
                     .height(changeDisImgParentJson.height)
                     .removeAttr('id');
-
-//        moveDisImg.animate().removeAttr('id').parent().css('z-index',1);
             box.off('mousemove', displayMouseMove);
-//        pageDisplayUl.off('mousedown',displayMouseDown);
         }
-//        ##################################################
+
         if (flag == 1) {
 
-            addBigData();
+            addBigData(changeBigObj, _$thisBigObj);
 //            if(moveDisImg.attr('id')==changeDisImg.attr('id')){
             moveDisImg.attr('src', "");
 //            }
             _$this.remove();
         }
-//        ##################################################
-
         //下面的if判断是处理的Unexpected token u报错的问题，是因为切换了布局之后，单击页面任意区块， 再切换布局的时候，moveDisImgParent没有找到，所以就报这个错误了
         if (moveDisImgParent && moveDisImgParent.length > 0) {
 //            console.log(moveDisImgParent[0]);
             moveDisImgParent.attr('data-position', tempObj.data.position);
+            moveDisImgParent.attr('data-big', tempObj.data.big);
+
             var moveDisImgParentJson = JSON.parse(moveDisImgParent.attr('data-position'));
             //这个changeDisImgParentJson的格式为Object Object {xL: 244.5, xR: 504.5, yT: 84, yB: 344, width: 260, height: 260}
             /*        console.log(changeDisImgParentJson);
@@ -493,28 +506,13 @@
             })
                     .width(moveDisImgParentJson.width)
                     .height(moveDisImgParentJson.height);
-            //disChange(e, num, moveDisImgParentJson, changeDisImgParentJson);
             moveDisImg.removeAttr('id');
         } else {
             return;
         }
         return false;
     }
-    //下面的代码处理显示区块大小不一的问题--没有在这里用到
-    function disChange(e, num, moveDisImgParentJson, changeDisImgParentJson) {
-        //处理Uncaught SyntaxError: Unexpected token u报错
-        if (e.target.parentNode.nodeName.toUpperCase() !== "LI") {
-            return
-        }
-        var dataObj = JSON.parse($(e.target).parent().attr('data-position'));
-        if (moveDisImgParentJson.size == "big") {
-            console.log("ok1")
-        } else if (changeDisImgParentJson.size == 'big') {
-            console.log("ok2")
-        } else if (dataObj.size == 'big') {
-            console.log("?");
-        }
-    }
+
     //检测需要增加边框的位置
     function addBorder(x, y) {
         var imgAry = [];
@@ -667,19 +665,25 @@
                 return;
             }
         }
+        //将合并的两者的data-position进行存储，以便拆分的时候使用
+        changeBigObj = JSON.parse(posThis.attr('data-position'));
+        _$thisBigObj = JSON.parse(_$this.attr('data-position'));
+
+        console.log(changeBigObj);
+        console.log(_$thisBigObj);
     }
     //将图片内容添加到区块内
     function addImgDis(x, y) {
         var moveImg = $('#moveImg');
         cursorSrcOld = moveImg.attr('data-src');
-        $(".page_display li").each(function () {
+        if (flag == 1) {
+            addBigData(changeBigObj, _$thisBigObj);
+        }else{
+            $(".page_display li").each(function () {
 
-            var positionObj = JSON.parse($(this).attr('data-position'));
-            //加了大的边框的时候flag=1，没加的时候为0
-            if (flag == 1) {
-                addBigData();
+                var positionObj = JSON.parse($(this).attr('data-position'));
+                //加了大的边框的时候flag=1，没加的时候为0
 
-            } else {
                 if (x > positionObj.xL && x < positionObj.xR) {
                     if (y > positionObj.yT && y < positionObj.yB) {
 
@@ -687,27 +691,37 @@
                         $(this).css({'border': 'none'})
                     }
                 }
-            }
-        });
+
+            });
+        }
+
         if ($("#addBorder").length > 0) {
             $("#addBorder").remove();
         }
         moveImg.remove();
     }
     //鼠标move的时候，鼠标加了大的边框的时候flag=1的时候，合并2个li，并将两个li的data-position的信息存储进新增的一个data-big的属性中，用于拆分预留
-    function addBigData() {
+    function addBigData(changeBigObj, _$thisBigObj) {
         var w = $("#addBorder").width();
 //                console.log(w);
-        var changeBigObj = JSON.parse(posThis.attr('data-position'));
-        var _$thisBigObj = JSON.parse(_$this.attr('data-position'));
         var bigAry = [];
         bigAry.push(changeBigObj);
         bigAry.push(_$thisBigObj);
+        var styleAry=[];
+        styleAry.push(posThis.attr('style'));
+        styleAry.push(_$this.attr('style'));
+
+//        console.log(changeBigObj);
+//        console.log(_$thisBigObj);
+//        console.log(bigAry);
+//        console.log(styleAry);
+        var styleAryJson=JSON.stringify(styleAry);
         var bigAryJson = JSON.stringify(bigAry);
 //      给变大的li增加data-big这个属性，属性的作用是为了拆分的时候，预留的。
 //      属性的格式为"[{"xL":244.5,"xR":504.5,"yT":354,"yB":614,"width":260,"height":260,"size":"normal"},{"xL":514.5,"xR":774.5,"yT":354,"yB":614,"width":260,"height":260,"size":"normal"}]"
 //      这里面存储的是合并的第一个li和第二个li的data-position的信息
         posThis.attr('data-big', bigAryJson);
+        posThis.attr('data-style', styleAryJson);
         changeBigObj.width = w;
         changeBigObj.size = 'big';
         changeBigObj.xR = changeBigObj.xL + w;
@@ -779,8 +793,29 @@
             });
         }
         //事件源的父级没有合并过的时候,没有data-big这个属性，增加不可点击样式
-        if($(target).parent().attr('data-big')){
-            $("#split").removeClass('can_not_click');
+        if($(target).parent().attr('data-big')&&$(target).attr('src')==""){
+            $("#split").removeClass('can_not_click').one('click', function () {
+                if($(target).parent().attr('data-big')&&$(target).parent().attr('data-big').length>0){
+                    var targetJsonObj=JSON.parse($(target).parent().attr('data-big'));
+                    console.log(targetJsonObj);
+                    var styleAry=JSON.parse($(target).parent().attr('data-style'));
+                    var styleAry0=styleAry[0];
+                    var styleAry1=styleAry[1];
+                    var targetJson0=JSON.stringify(targetJsonObj[0]);
+                    var targetJson1=JSON.stringify(targetJsonObj[1]);
+                    $(target).attr('src','').css({'width':targetJsonObj[0].width,'height':targetJsonObj[0].height});
+                    $(target).parent().removeAttr('data-big').attr('data-position',targetJson0).attr('style',styleAry0).removeAttr('data-style');
+                    var addLi='<li><img></li>';
+                    pageDisplayUl.append(addLi);
+                    pageDisplayUl.children().last().attr('style',styleAry1).attr('data-position',targetJson1).children().css({'width':targetJsonObj[1].width,'height':targetJsonObj[1].height});
+
+                    $(this).addClass('can_not_click');
+                    myContextMenu.hide();
+                }else{
+                    return
+                }
+            });
+
         }else{
             $("#split").addClass('can_not_click');
         }
@@ -807,6 +842,7 @@
      * 6.拖动之后，在往里加内容的时候，就没法up了      --ok
      * 7.修改布局后，点击页面中的一个区块，在修改布局，这时会报一个错误，Unexpected token u --ok
      * 8.现在9个的时候，在2,3之间的时候，addBorder的位置不对，但是合并的li是正确的。
+     * 9.拆分完区块之后，新增的li没法合并，检测到了在1和2之间，但是没有出现大的border，也就是鼠标flag没有=1
      * */
 </script>
 </body>
