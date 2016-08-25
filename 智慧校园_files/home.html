@@ -64,6 +64,26 @@
             height: 150px;
             cursor: pointer;
         }
+        #my_contextmenu{
+            width: 200px;
+            height: 100px;
+            background-color: white;
+            border: 1px solid #777;
+            color: #000;
+        }
+        #my_contextmenu p{
+            line-height: 20px;
+            height: 20px;
+            font-size: 16px;
+            vertical-align: middle;
+            text-align: center;
+        }
+        #my_contextmenu p:hover{
+            background: #007;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
     </style>
     <!--############################################################-->
     <script src="polyfills.js" type="text/javascript"></script>
@@ -165,6 +185,10 @@
                 <li><img src="img/8.png"></li>
                 <li><img src="img/9.png"></li>
             </ul>
+            <div id="my_contextmenu">
+                <p id="remove">移除区块内容</p>
+                <p id="split">拆分显示区块</p>
+            </div>
             <!--############################################################-->
         </div>
 
@@ -452,11 +476,7 @@
                 .width(moveDisImgParentJson.width)
                 .height(moveDisImgParentJson.height);
         //disChange(e, num, moveDisImgParentJson, changeDisImgParentJson);
-
-
         moveDisImg.removeAttr('id');
-
-
         return false;
     }
     //下面的代码处理显示区块大小不一的问题--没有在这里用到
@@ -693,14 +713,19 @@
         }).on('click', function () {
             e.target.src = "";
             $(this).remove();
-        });
-        //点击任意非删除按钮的位置，删除按钮
-        $(document).on('click', function () {
-            removeImg.remove();
             count = 0;
         });
+        //点击任意非删除按钮的位置，如果remove按钮存在，则移除按钮
+        $(document).on('click contextmenu', function () {
+            if(count==1){
+                $("#removeImg").remove();
+                count = 0;
+            }
+        });
         return false;
-    })
+    });
+
+
 </script>
 <script>
     /*
@@ -710,10 +735,9 @@
      * 3.碰撞检测，不够准确，现在是靠鼠标的位置进行定位的(不是按照最大接触面积进行处理的,也没有处理不能和自己比的问题(被拖动的右边和$(this)的左边比，下边和上边比，前者大，或者左边和右边比，上边和下边比，前者小，都是没有撞上，反之，要检测撞上区域的大小那个更大，)
      * 4.内容添加到页面的时候，如果down完直接up，没有move的时候，没法释放图片到页面内     --ok
      * 5.鼠标在中间位置的时候的处理【检测左右两个是否有src，没有的话，就合并单元格】
-     *
-     * 这里有个问题，目前如果有图片交换之后，就会没法找到相邻的图片了
+     * 这里有个问题，目前如果有图片交换之后，就会没法找到相邻的图片了  --ok
      * 6.拖动之后，在往里加内容的时候，就没法up了      --ok
-     * 7.修改布局后，点击页面中的一个区块，在修改布局，这时会报一个错误，Unexpected token u
+     * 7.修改布局后，点击页面中的一个区块，在修改布局，这时会报一个错误，Unexpected token u --ok
      * */
 </script>
 </body>
