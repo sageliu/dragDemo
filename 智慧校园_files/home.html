@@ -64,6 +64,7 @@
             height: 150px;
             cursor: pointer;
         }
+        /*自定义菜单的样式*/
         #my_contextmenu{
             width: 180px;
             height: 81px;
@@ -71,6 +72,7 @@
             border: 1px solid #777;
             color: #000;
             display: none;
+            overflow: hidden;
         }
         #my_contextmenu p{
             line-height: 40px;
@@ -79,16 +81,23 @@
             text-align: center;
         }
         #my_contextmenu p:hover{
-            background: #007;
+            background: #008;
             color: #ffffff;
-            cursor: pointer;
+            cursor: default;
         }
         #my_contextmenu span{
             border-bottom: 1px dashed #777;
             max-height: 1px;
             display: block;
         }
-
+        /*不能点击的样式，文字变成灰色的*/
+        .can_not_click{
+            color:#777;
+        }
+        #my_contextmenu p.can_not_click:hover{
+            background: #fff;
+            color: #777;
+        }
     </style>
     <!--############################################################-->
     <script src="polyfills.js" type="text/javascript"></script>
@@ -461,28 +470,28 @@
             _$this.remove();
         }
 //        ##################################################
-//
+
         //下面的if判断是处理的Unexpected token u报错的问题，是因为切换了布局之后，单击页面任意区块， 再切换布局的时候，moveDisImgParent没有找到，所以就报这个错误了
         if (moveDisImgParent && moveDisImgParent.length > 0) {
-            console.log(moveDisImgParent[0]);
+//            console.log(moveDisImgParent[0]);
+            moveDisImgParent.attr('data-position', tempObj.data.position);
+            var moveDisImgParentJson = JSON.parse(moveDisImgParent.attr('data-position'));
+            //这个changeDisImgParentJson的格式为Object Object {xL: 244.5, xR: 504.5, yT: 84, yB: 344, width: 260, height: 260}
+            /*        console.log(changeDisImgParentJson);
+             console.log(moveDisImgParentJson);*/
+            moveDisImg.width(moveDisImgParentJson.width).height(moveDisImgParentJson.height);
+            moveDisImgParent.css({
+                top: moveDisImgParentJson.yT - delY,
+                left: moveDisImgParentJson.xL - delX,
+                'z-index': 1
+            })
+                    .width(moveDisImgParentJson.width)
+                    .height(moveDisImgParentJson.height);
+            //disChange(e, num, moveDisImgParentJson, changeDisImgParentJson);
+            moveDisImg.removeAttr('id');
         } else {
-            return
+            return;
         }
-        moveDisImgParent.attr('data-position', tempObj.data.position);
-        var moveDisImgParentJson = JSON.parse(moveDisImgParent.attr('data-position'));
-        //这个changeDisImgParentJson的格式为Object Object {xL: 244.5, xR: 504.5, yT: 84, yB: 344, width: 260, height: 260}
-        /*        console.log(changeDisImgParentJson);
-         console.log(moveDisImgParentJson);*/
-        moveDisImg.width(moveDisImgParentJson.width).height(moveDisImgParentJson.height);
-        moveDisImgParent.css({
-            top: moveDisImgParentJson.yT - delY,
-            left: moveDisImgParentJson.xL - delX,
-            'z-index': 1
-        })
-                .width(moveDisImgParentJson.width)
-                .height(moveDisImgParentJson.height);
-        //disChange(e, num, moveDisImgParentJson, changeDisImgParentJson);
-        moveDisImg.removeAttr('id');
         return false;
     }
     //下面的代码处理显示区块大小不一的问题--没有在这里用到
@@ -709,8 +718,8 @@
         if (count == 1)return;
         var x=e.pageX;
         var y=e.pageY;
-
-        contextMenuShow(x,y);
+        var target=e.target||e.srcElement;
+        contextMenuShow(x,y,target);
 /*        var targetP = $(e.target).parent();
         var removePStr = '<p style="width: 40px;height: 40px;background: url(img/remove.png) no-repeat; background-size:100% 100%;position: absolute;z-index: 200;cursor:pointer" id="removeImg"></p>';
         pageDisplayUl.append(removePStr);
@@ -726,36 +735,50 @@
         });*/
         //点击任意非删除按钮的位置，如果remove按钮存在，则移除按钮
         $(document).on('click contextmenu', function (e) {
-            console.log(e.target);
+//            console.log(e.target);
             if(count==1){
 //                $("#removeImg").remove();
                 $("#my_contextmenu").hide();
                 count = 0;
             }
-            if($(e.target).parent().attr('data-position')!==''){
+            var target=e.target||e.srcElement;
+            if($(target).parent().attr('data-position')!==''){
 //                console.log(e.type);
                 //处理只有点击右键的时候，才会弹出自定义的菜单
                 if(e.type=="contextmenu"){
                     var x=e.pageX;
                     var y=e.pageY;
-                    contextMenuShow(x,y);
+                    contextMenuShow(x,y,target);
                 }
             }
         });
         return false;
     });
-    function contextMenuShow(x,y) {
+//  单击右键展示自定义菜单显示的位置
+    function contextMenuShow(x,y,target) {
+//        console.log("用target.src==''检测的时候，结果不准确？");
+        //事件源没有内容的时候，增加不可点击样式
+        if($(target).attr('src')==""){
+            $("#remove").addClass('can_not_click');
+        }else {
+            $("#remove").removeClass('can_not_click');
+        }
+        //事件源的父级没有合并过的时候,没有data-big这个属性，增加不可点击样式
+        if($(target).parent().attr('data-big')){
+            $("#split").removeClass('can_not_click');
+        }else{
+            $("#split").addClass('can_not_click');
+        }
         $("#my_contextmenu").show().css({
-//           top: 0-(40/2-10)
             'top': y,
             'left': x,
             'position':'absolute',
             'z-index':102
+        }).delegate('p','click',function (e) {
+
         });
         count=1;
     }
-
-
 </script>
 <script>
     /*
@@ -768,6 +791,7 @@
      * 这里有个问题，目前如果有图片交换之后，就会没法找到相邻的图片了  --ok
      * 6.拖动之后，在往里加内容的时候，就没法up了      --ok
      * 7.修改布局后，点击页面中的一个区块，在修改布局，这时会报一个错误，Unexpected token u --ok
+     * 8.现在9个的时候，在2,3之间的时候，addBorder的位置不对，但是合并的li是正确的。
      * */
 </script>
 </body>
