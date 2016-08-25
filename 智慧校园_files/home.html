@@ -65,10 +65,6 @@
             cursor: pointer;
         }
     </style>
-    <script src="event.js"></script>
-    <script src="drag_oop.js"></script>
-    <script src="tween.js"></script>
-
     <!--############################################################-->
     <script src="polyfills.js" type="text/javascript"></script>
     <script src="ie8.polyfils.min.js" type="text/javascript"></script>
@@ -196,7 +192,7 @@
         pageDisplay(num);
 //        console.log($(".page_display li"));
         pageDisplayToPos(num);
-    })
+    });
     function pageDisplay(num) {
         //根据传回来的参数，对页面的区块数量进行定制
         var str = '<li><img src=""></li>';
@@ -241,12 +237,10 @@
         //console.log($('.page_display>ul').children().length);
     }
 
-    //  将li全部转换为absolute
+    //将li全部转换为absolute
     //注意，这里要反着改。
     function pageDisplayToPos(num) {
-        /*        var oUlOffset = $(".page_display>ul").offset();
-         var xDel = oUlOffset.left + 5;
-         var yDel = oUlOffset.top + 5;*/
+
 
         Array.prototype.reverse.call($(".page_display li")).each(function () {
             var x = $(this).offset().left;
@@ -270,6 +264,7 @@
             if (num == 6 && $(this).index() == 1) {
                 dataObj.size = "tooBig";
             }
+
             dataJson = JSON.stringify(dataObj);
             $(this).css({
                 position: 'absolute',
@@ -334,7 +329,8 @@
         });
         var x=e.pageX;
         var y=e.pageY;
-        addBorder(x,y);
+        var target=e.target||e.srcElement;
+        addBorder(x,y,target);
 
         if (e.target.id == "moveImg") {
             //处理交换位置之后，无法再次对页面区块内容进行更换
@@ -382,6 +378,7 @@
          var delY = pageDisplayUl.offset().top;*/
         var x = e.pageX;
         var y = e.pageY;
+        var target=e.target||e.srcElement;
         var x2 = x - moveDisImg.width() / 2 - delX;
         var y2 = y - moveDisImg.height() / 2 - delY;
         //将被移动的图片显示的层级提高
@@ -389,7 +386,7 @@
         //检测被移动的图片，在哪个区块接触的面积大，和那个区块进行位置的对调。
         /*=================================================*/
 
-        addBorder(x,y);
+        addBorder(x,y,target);
 
             /*if (y > positionObj.yT && y < positionObj.yB) {
                 if (x > positionObj.xL && x < positionObj.xR) {
@@ -448,21 +445,11 @@
         }
 //        ##################################################
         if (flag == 1) {
-            var w = $("#addBorder").width();
-//                console.log(w);
-            var changeBigObj = JSON.parse(posThis.attr('data-position'));
-            changeBigObj.width = w;
-            changeBigObj.size = 'big';
-            changeBigObj.xR = changeBigObj.xL + w;
-//                console.log(changeBigObj);
-            var changeBigObjJson = JSON.stringify(changeBigObj);
 
-            posThis.css({'width': w}).attr('data-position', changeBigObjJson);
-            posThis.children().attr('src', cursorSrcOld).css({'width': w});
-//            console.log(imgAry);
-//            这里是找不到这个imgAry的
-            console.log(_$this);
-            moveDisImg.attr('src',"");
+            addBigData();
+//            if(moveDisImg.attr('id')==changeDisImg.attr('id')){
+                moveDisImg.attr('src',"");
+//            }
             _$this.remove();
         }
 //        ##################################################
@@ -512,7 +499,7 @@
 
     }
     //检测需要增加边框的位置
-    function addBorder(x,y) {
+    function addBorder(x,y,target) {
         var imgAry = [];
 
 //        var x = e.pageX;
@@ -537,6 +524,7 @@
 
                 if (x > _$thisPositionObj.xL && x < _$thisPositionObj.xR) {
                     console.log("在区块中");
+
                     $(".page_display li").each(function () {
 //                      先清除所有的区块的border
                         $(this).css({'border': 'none'});
@@ -672,18 +660,7 @@
             var positionObj = JSON.parse($(this).attr('data-position'));
             //加了大的边框的时候flag=1，没加的时候为0
             if (flag == 1) {
-                var w = $("#addBorder").width();
-//                console.log(w);
-                var changeBigObj = JSON.parse(posThis.attr('data-position'));
-                changeBigObj.width = w;
-                changeBigObj.size = 'big';
-                changeBigObj.xR = changeBigObj.xL + w;
-//                console.log(changeBigObj);
-                var changeBigObjJson = JSON.stringify(changeBigObj);
-
-                posThis.css({'width': w}).attr('data-position', changeBigObjJson);
-                posThis.children().attr('src', cursorSrcOld).css({'width': w});
-                _$this.remove();
+                addBigData();
 
             } else {
                 if (x > positionObj.xL && x < positionObj.xR) {
@@ -699,6 +676,30 @@
             $("#addBorder").remove();
         }
         moveImg.remove();
+    }
+    //鼠标move的时候，鼠标加了大的边框的时候flag=1的时候，合并2个li，并将两个li的data-position的信息存储进新增的一个data-big的属性中，用于拆分预留
+    function addBigData() {
+        var w = $("#addBorder").width();
+//                console.log(w);
+        var changeBigObj = JSON.parse(posThis.attr('data-position'));
+        var _$thisBigObj=JSON.parse(_$this.attr('data-position'));
+        var bigAry=[];
+        bigAry.push(changeBigObj);
+        bigAry.push(_$thisBigObj);
+        var bigAryJson=JSON.stringify(bigAry);
+//      给变大的li增加data-big这个属性，属性的作用是为了拆分的时候，预留的。
+//      属性的格式为"[{"xL":244.5,"xR":504.5,"yT":354,"yB":614,"width":260,"height":260,"size":"normal"},{"xL":514.5,"xR":774.5,"yT":354,"yB":614,"width":260,"height":260,"size":"normal"}]"
+//      这里面存储的是合并的第一个li和第二个li的data-position的信息
+        posThis.attr('data-big',bigAryJson);
+        changeBigObj.width = w;
+        changeBigObj.size = 'big';
+        changeBigObj.xR = changeBigObj.xL + w;
+//                console.log(changeBigObj);
+        var changeBigObjJson = JSON.stringify(changeBigObj);
+
+        posThis.css({'width': w}).attr('data-position', changeBigObjJson);
+        posThis.children().attr('src', cursorSrcOld).css({'width': w});
+        _$this.remove();
     }
 
     //    以下代码是用于右击区块内的img，出现删除按钮，实现删除img的功能
@@ -734,7 +735,7 @@
      *
      * 这里有个问题，目前如果有图片交换之后，就会没法找到相邻的图片了
      * 6.拖动之后，在往里加内容的时候，就没法up了      --ok
-     * 7.鼠标双击的时候，弹出删除的按钮，但是这时会报一个错误
+     * 7.修改布局后，点击页面中的一个区块，在修改布局，这时会报一个错误，Unexpected token u
      * */
 </script>
 </body>
