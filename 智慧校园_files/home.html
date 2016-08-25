@@ -65,23 +65,28 @@
             cursor: pointer;
         }
         #my_contextmenu{
-            width: 200px;
-            height: 100px;
+            width: 180px;
+            height: 81px;
             background-color: white;
             border: 1px solid #777;
             color: #000;
+            display: none;
         }
         #my_contextmenu p{
-            line-height: 20px;
-            height: 20px;
+            line-height: 40px;
+            height: 40px;
             font-size: 16px;
-            vertical-align: middle;
             text-align: center;
         }
         #my_contextmenu p:hover{
             background: #007;
             color: #ffffff;
             cursor: pointer;
+        }
+        #my_contextmenu span{
+            border-bottom: 1px dashed #777;
+            max-height: 1px;
+            display: block;
         }
 
     </style>
@@ -187,6 +192,7 @@
             </ul>
             <div id="my_contextmenu">
                 <p id="remove">移除区块内容</p>
+                <span></span>
                 <p id="split">拆分显示区块</p>
             </div>
             <!--############################################################-->
@@ -701,10 +707,13 @@
     pageDisplayUl.delegate('img', 'contextmenu', function (e) {
         e.preventDefault();
         if (count == 1)return;
-        var targetP = $(e.target).parent();
+        var x=e.pageX;
+        var y=e.pageY;
+
+        contextMenuShow(x,y);
+/*        var targetP = $(e.target).parent();
         var removePStr = '<p style="width: 40px;height: 40px;background: url(img/remove.png) no-repeat; background-size:100% 100%;position: absolute;z-index: 200;cursor:pointer" id="removeImg"></p>';
         pageDisplayUl.append(removePStr);
-        count = 1;
         var removeImg = $("#removeImg");
         removeImg.css({
 //           top: 0-(40/2-10)
@@ -714,16 +723,37 @@
             e.target.src = "";
             $(this).remove();
             count = 0;
-        });
+        });*/
         //点击任意非删除按钮的位置，如果remove按钮存在，则移除按钮
-        $(document).on('click contextmenu', function () {
+        $(document).on('click contextmenu', function (e) {
+            console.log(e.target);
             if(count==1){
-                $("#removeImg").remove();
+//                $("#removeImg").remove();
+                $("#my_contextmenu").hide();
                 count = 0;
+            }
+            if($(e.target).parent().attr('data-position')!==''){
+//                console.log(e.type);
+                //处理只有点击右键的时候，才会弹出自定义的菜单
+                if(e.type=="contextmenu"){
+                    var x=e.pageX;
+                    var y=e.pageY;
+                    contextMenuShow(x,y);
+                }
             }
         });
         return false;
     });
+    function contextMenuShow(x,y) {
+        $("#my_contextmenu").show().css({
+//           top: 0-(40/2-10)
+            'top': y,
+            'left': x,
+            'position':'absolute',
+            'z-index':102
+        });
+        count=1;
+    }
 
 
 </script>
