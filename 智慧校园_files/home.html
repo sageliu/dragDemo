@@ -335,7 +335,7 @@
     function imgMouseDown(e) {
         //如果右键菜单在的时候，就将它隐藏
         if(count==1){
-//                $("#removeImg").remove();
+//      $("#removeImg").remove();
             $("#my_contextmenu").hide();
             count = 0;
         }
@@ -540,7 +540,7 @@
 //                    e.page大于他自己的xL,小于他自己的xR
 
                 if (x > _$thisPositionObj.xL && x < _$thisPositionObj.xR) {
-                    console.log("在区块中");
+//                    console.log("在区块中");
 
                     $(".page_display li").each(function () {
 //                      先清除所有的区块的border
@@ -726,7 +726,9 @@
         var y=e.pageY;
         var target=e.target||e.srcElement;
         contextMenuShow(x,y,target);
-/*        var targetP = $(e.target).parent();
+/*
+//下面注释掉的代码实现的是右键弹出删除按钮的代码
+        var targetP = $(e.target).parent();
         var removePStr = '<p style="width: 40px;height: 40px;background: url(img/remove.png) no-repeat; background-size:100% 100%;position: absolute;z-index: 200;cursor:pointer" id="removeImg"></p>';
         pageDisplayUl.append(removePStr);
         var removeImg = $("#removeImg");
@@ -769,7 +771,8 @@
             $("#remove").addClass('can_not_click');
         }else {
             $("#remove").removeClass('can_not_click').on('click', function () {
-                target.src = "";
+                console.log(target);
+                $(target).attr('src',"");
                 $(this).addClass('can_not_click');
                 myContextMenu.hide();
                 count = 0;
