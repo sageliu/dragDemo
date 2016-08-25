@@ -291,6 +291,8 @@
     //鼠标move的时候，鼠标在区块中的时候，where=1，没在区块中的时候，where=0
     var where = 0;
     //在区块中的时候，where=1，没在区块中的时候，where=0
+    var count =0;
+    //remove的按钮只能出现一次，没有出现的时候count =0，出现一次为count =1
     imgList.delegate('img', 'mousedown', imgMouseDown);
     /*    imgList.delegate('img', 'mouseenter', imgMouseEnter);
      function imgMouseEnter() {
@@ -329,8 +331,7 @@
         });
         var x=e.pageX;
         var y=e.pageY;
-        var target=e.target||e.srcElement;
-        addBorder(x,y,target);
+        addBorder(x,y);
 
         if (e.target.id == "moveImg") {
             //处理交换位置之后，无法再次对页面区块内容进行更换
@@ -378,7 +379,6 @@
          var delY = pageDisplayUl.offset().top;*/
         var x = e.pageX;
         var y = e.pageY;
-        var target=e.target||e.srcElement;
         var x2 = x - moveDisImg.width() / 2 - delX;
         var y2 = y - moveDisImg.height() / 2 - delY;
         //将被移动的图片显示的层级提高
@@ -386,7 +386,7 @@
         //检测被移动的图片，在哪个区块接触的面积大，和那个区块进行位置的对调。
         /*=================================================*/
 
-        addBorder(x,y,target);
+        addBorder(x,y);
 
             /*if (y > positionObj.yT && y < positionObj.yB) {
                 if (x > positionObj.xL && x < positionObj.xR) {
@@ -499,7 +499,7 @@
 
     }
     //检测需要增加边框的位置
-    function addBorder(x,y,target) {
+    function addBorder(x,y) {
         var imgAry = [];
 
 //        var x = e.pageX;
@@ -702,12 +702,14 @@
         _$this.remove();
     }
 
-    //    以下代码是用于右击区块内的img，出现删除按钮，实现删除img的功能
+    //以下代码是用于右击区块内的img，出现删除按钮，实现删除img的功能
     pageDisplayUl.delegate('img', 'contextmenu', function (e) {
         e.preventDefault();
+        if(count==1)return;
         var targetP = $(e.target).parent();
         var removePStr = '<p style="width: 40px;height: 40px;background: url(img/remove.png) no-repeat; background-size:100% 100%;position: absolute;z-index: 200;cursor:pointer" id="removeImg"></p>';
         pageDisplayUl.append(removePStr);
+        count=1;
         var removeImg = $("#removeImg");
         removeImg.css({
 //           top: 0-(40/2-10)
@@ -720,7 +722,8 @@
         //点击任意非删除按钮的位置，删除按钮
         $(document).on('click', function () {
             removeImg.remove();
-        })
+            count=0;
+        });
         return false;
     })
 </script>
