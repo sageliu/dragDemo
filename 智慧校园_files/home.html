@@ -333,6 +333,12 @@
      imgList.delegate('img', 'mousedown', imgMouseDown);
      }*/
     function imgMouseDown(e) {
+        //如果右键菜单在的时候，就将它隐藏
+        if(count==1){
+//                $("#removeImg").remove();
+            $("#my_contextmenu").hide();
+            count = 0;
+        }
         box.off('mouseup', displayMouseUp).off('mouseup', imgMouseUp);
         box.delegate('img', 'mousemove', imgMouseMove);
         box.delegate('img', 'mouseup', imgMouseUp);
@@ -758,10 +764,16 @@
     function contextMenuShow(x,y,target) {
 //        console.log("用target.src==''检测的时候，结果不准确？");
         //事件源没有内容的时候，增加不可点击样式
+        var myContextMenu=$("#my_contextmenu");
         if($(target).attr('src')==""){
             $("#remove").addClass('can_not_click');
         }else {
-            $("#remove").removeClass('can_not_click');
+            $("#remove").removeClass('can_not_click').on('click', function () {
+                target.src = "";
+                $(this).addClass('can_not_click');
+                myContextMenu.hide();
+                count = 0;
+            });
         }
         //事件源的父级没有合并过的时候,没有data-big这个属性，增加不可点击样式
         if($(target).parent().attr('data-big')){
@@ -769,7 +781,7 @@
         }else{
             $("#split").addClass('can_not_click');
         }
-        $("#my_contextmenu").show().css({
+        myContextMenu.show().css({
             'top': y,
             'left': x,
             'position':'absolute',
