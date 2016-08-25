@@ -185,8 +185,6 @@
     //    console.log(pageListUl);
     var num = 9;
     pageListUl.delegate('img', 'click', function (e) {
-//        if($("#changeDisImgParent").length>0){alert(123)};
-        //当切换完页面的布局之后，单击页面任意区块，在进行页面的布局切换的时候，会报错Unexpected token u;----------这里暂时没有处理
         box.off('mouseup', imgMouseUp).off('mouseup', displayMouseUp);
         num = e.target.getAttribute('data-num');
         pageDisplay(num);
@@ -236,12 +234,9 @@
 
         //console.log($('.page_display>ul').children().length);
     }
-
     //将li全部转换为absolute
     //注意，这里要反着改。
     function pageDisplayToPos(num) {
-
-
         Array.prototype.reverse.call($(".page_display li")).each(function () {
             var x = $(this).offset().left;
             var y = $(this).offset().top;
@@ -291,7 +286,7 @@
     //鼠标move的时候，鼠标在区块中的时候，where=1，没在区块中的时候，where=0
     var where = 0;
     //在区块中的时候，where=1，没在区块中的时候，where=0
-    var count =0;
+    var count = 0;
     //remove的按钮只能出现一次，没有出现的时候count =0，出现一次为count =1
     imgList.delegate('img', 'mousedown', imgMouseDown);
     /*    imgList.delegate('img', 'mouseenter', imgMouseEnter);
@@ -329,9 +324,9 @@
             top: (e.pageY - 50),
             left: (e.pageX - 50)
         });
-        var x=e.pageX;
-        var y=e.pageY;
-        addBorder(x,y);
+        var x = e.pageX;
+        var y = e.pageY;
+        addBorder(x, y);
 
         if (e.target.id == "moveImg") {
             //处理交换位置之后，无法再次对页面区块内容进行更换
@@ -351,14 +346,13 @@
 //        console.log("up");
 //        console.log(moveImg.attr('data-src'));
 
-        addImgDis(x,y);
+        addImgDis(x, y);
 //        console.log("where="+where);
 
         box.off('mousemove', imgMouseMove);
     }
     //   下面的代码是可以对显示区域的图片进行拖动位置替换的
     pageDisplayUl.delegate('img', 'mousedown', displayMouseDown);
-
     function displayMouseDown(e) {
         if (e.type == "contextmenu") {
             return
@@ -384,26 +378,9 @@
         //将被移动的图片显示的层级提高
         moveDisImg.parent().css({top: y2, left: x2, 'z-index': 100});
         //检测被移动的图片，在哪个区块接触的面积大，和那个区块进行位置的对调。
-        /*=================================================*/
 
-        addBorder(x,y);
+        addBorder(x, y);
 
-            /*if (y > positionObj.yT && y < positionObj.yB) {
-                if (x > positionObj.xL && x < positionObj.xR) {
-//                    console.log($(this).children());
-//                    给被撞上的li加上id和边框
-                    $(this).css({
-                        'border': '2px solid red',
-                        top: ($(this).css('top') - 1),
-                        left: ($(this).css('left') - 1)
-                    }).attr('id', 'changeDisImgParent');
-                }else{
-//                    这里是新增的，处理替换并合并区块内容的代码，以及拆分区块的代码
-
-                }
-            }*/
-
-        /*=================================================*/
         box.off('mousedown', displayMouseDown);
         return false;
     }
@@ -418,6 +395,7 @@
         tempObj.data.position = changeDisImgParent.attr('data-position');
 //        console.log(tempObj);
         //下面的if判断是处理的Unexpected token u报错的问题，是因为down 再up的时候，没有changeDisImgParent，所以就报这个错误了
+
         if (changeDisImgParent && changeDisImgParent.length > 0) {
             if (changeDisImgParent.attr('id') == moveDisImgParent.attr('id')) {
                 console.log("up1");
@@ -448,14 +426,19 @@
 
             addBigData();
 //            if(moveDisImg.attr('id')==changeDisImg.attr('id')){
-                moveDisImg.attr('src',"");
+            moveDisImg.attr('src', "");
 //            }
             _$this.remove();
         }
 //        ##################################################
-
+//
+        //下面的if判断是处理的Unexpected token u报错的问题，是因为切换了布局之后，单击页面任意区块， 再切换布局的时候，moveDisImgParent没有找到，所以就报这个错误了
+        if (moveDisImgParent && moveDisImgParent.length > 0) {
+            console.log(moveDisImgParent[0]);
+        } else {
+            return
+        }
         moveDisImgParent.attr('data-position', tempObj.data.position);
-
         var moveDisImgParentJson = JSON.parse(moveDisImgParent.attr('data-position'));
         //这个changeDisImgParentJson的格式为Object Object {xL: 244.5, xR: 504.5, yT: 84, yB: 344, width: 260, height: 260}
         /*        console.log(changeDisImgParentJson);
@@ -476,19 +459,13 @@
 
         return false;
     }
-
     //下面的代码处理显示区块大小不一的问题--没有在这里用到
     function disChange(e, num, moveDisImgParentJson, changeDisImgParentJson) {
         //处理Uncaught SyntaxError: Unexpected token u报错
         if (e.target.parentNode.nodeName.toUpperCase() !== "LI") {
             return
         }
-
         var dataObj = JSON.parse($(e.target).parent().attr('data-position'));
-//        console.log(dataObj.size);
-//        console.log(changeDisImgParentJson);
-//        console.log(moveDisImgParentJson);
-
         if (moveDisImgParentJson.size == "big") {
             console.log("ok1")
         } else if (changeDisImgParentJson.size == 'big') {
@@ -496,10 +473,9 @@
         } else if (dataObj.size == 'big') {
             console.log("?");
         }
-
     }
     //检测需要增加边框的位置
-    function addBorder(x,y) {
+    function addBorder(x, y) {
         var imgAry = [];
 
 //        var x = e.pageX;
@@ -514,8 +490,8 @@
 
             var _$this = $(this);
             var _$thisPositionObj = JSON.parse(_$this.attr('data-position'));
-            if (y > _$thisPositionObj.yT && y < _$thisPositionObj.yB ) {
-                if(_$thisPositionObj.size != "tooBig"){
+            if (y > _$thisPositionObj.yT && y < _$thisPositionObj.yB) {
+                if (_$thisPositionObj.size != "tooBig") {
                     //处理的是不能和最大的一个区块合并的问题
                     imgAry.push(_$this);
                 }
@@ -547,9 +523,9 @@
 
 //                  删除大的边框
                     return false;
-                }else{
+                } else {
 //                    console.info("没在区块内的时候，where=0");
-                    where=0;
+                    where = 0;
                     if (imgAry.length > 1 && where == 0) {
                         checkPosition(x, imgAry);
                     }
@@ -633,7 +609,7 @@
     }
     //增加边框
     function addBigBorder(posThis, _$this) {
-        console.log("flag="+flag);
+        console.log("flag=" + flag);
         //如果其中都没有内容
         if (flag == 0) {
             if (posThis.children().attr('src') == "" && _$this.children().attr('src') == "") {
@@ -652,7 +628,7 @@
         }
     }
     //将图片内容添加到区块内
-    function addImgDis(x,y) {
+    function addImgDis(x, y) {
         var moveImg = $('#moveImg');
         cursorSrcOld = moveImg.attr('data-src');
         $(".page_display li").each(function () {
@@ -682,15 +658,15 @@
         var w = $("#addBorder").width();
 //                console.log(w);
         var changeBigObj = JSON.parse(posThis.attr('data-position'));
-        var _$thisBigObj=JSON.parse(_$this.attr('data-position'));
-        var bigAry=[];
+        var _$thisBigObj = JSON.parse(_$this.attr('data-position'));
+        var bigAry = [];
         bigAry.push(changeBigObj);
         bigAry.push(_$thisBigObj);
-        var bigAryJson=JSON.stringify(bigAry);
+        var bigAryJson = JSON.stringify(bigAry);
 //      给变大的li增加data-big这个属性，属性的作用是为了拆分的时候，预留的。
 //      属性的格式为"[{"xL":244.5,"xR":504.5,"yT":354,"yB":614,"width":260,"height":260,"size":"normal"},{"xL":514.5,"xR":774.5,"yT":354,"yB":614,"width":260,"height":260,"size":"normal"}]"
 //      这里面存储的是合并的第一个li和第二个li的data-position的信息
-        posThis.attr('data-big',bigAryJson);
+        posThis.attr('data-big', bigAryJson);
         changeBigObj.width = w;
         changeBigObj.size = 'big';
         changeBigObj.xR = changeBigObj.xL + w;
@@ -701,15 +677,14 @@
         posThis.children().attr('src', cursorSrcOld).css({'width': w});
         _$this.remove();
     }
-
     //以下代码是用于右击区块内的img，出现删除按钮，实现删除img的功能
     pageDisplayUl.delegate('img', 'contextmenu', function (e) {
         e.preventDefault();
-        if(count==1)return;
+        if (count == 1)return;
         var targetP = $(e.target).parent();
         var removePStr = '<p style="width: 40px;height: 40px;background: url(img/remove.png) no-repeat; background-size:100% 100%;position: absolute;z-index: 200;cursor:pointer" id="removeImg"></p>';
         pageDisplayUl.append(removePStr);
-        count=1;
+        count = 1;
         var removeImg = $("#removeImg");
         removeImg.css({
 //           top: 0-(40/2-10)
@@ -722,7 +697,7 @@
         //点击任意非删除按钮的位置，删除按钮
         $(document).on('click', function () {
             removeImg.remove();
-            count=0;
+            count = 0;
         });
         return false;
     })
